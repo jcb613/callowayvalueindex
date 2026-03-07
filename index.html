@@ -60,19 +60,20 @@ body{font-family:'Outfit',sans-serif;background:var(--bg-primary);color:var(--te
 .sort-select{padding:7px 10px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;outline:none;}
 .player-count{font-size:12px;color:var(--text-muted);margin-left:auto;}
 .table-container{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-secondary);}
-.table-header{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .6fr .5fr .5fr .5fr .5fr .4fr;padding:8px 12px;background:var(--bg-tertiary);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;align-items:center;}
-.table-row,.player-row{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .6fr .5fr .5fr .5fr .5fr .4fr;padding:10px 12px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .15s;font-size:13px;}
+.table-header{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .5fr .5fr .5fr .5fr .4fr;padding:8px 12px;background:var(--bg-tertiary);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;align-items:center;}
+.table-row,.player-row{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .5fr .5fr .5fr .5fr .4fr;padding:10px 12px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .15s;font-size:13px;}
 .table-row:hover,.player-row:hover{background:var(--bg-hover);}
 .table-row:last-child{border-bottom:none;}
 .rank-num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;color:var(--text-muted);}
 .player-info{display:flex;align-items:center;gap:8px;min-width:0;}
 .player-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .player-meta{font-size:11px;color:var(--text-muted);}
-.pos-badge{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff;}
-.pos-badge.QB{background:var(--qb-color);}
-.pos-badge.RB{background:var(--rb-color);}
-.pos-badge.WR{background:var(--wr-color);}
-.pos-badge.TE{background:var(--te-color);}
+.pos-badge{display:inline-flex;align-items:center;justify-content:center;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap;}
+.pos-badge.QB{background:#ff2a6d;}
+.pos-badge.RB{background:#00ceb8;}
+.pos-badge.WR{background:#58a7ff;}
+.pos-badge.TE{background:#ffae58;}
+.pos-badge.PICK{background:var(--accent-gold);}
 .value-cell{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;}
 .tier-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.3px;}
 .ppg-cell{font-family:'JetBrains Mono',monospace;font-size:13px;}
@@ -137,7 +138,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg-primary);color:var(--te
 .scarcity-bar{height:6px;background:var(--bg-tertiary);border-radius:3px;overflow:hidden;margin-top:6px;}
 .scarcity-fill{height:100%;border-radius:3px;}
 @media(max-width:900px){
-.table-header,.table-row,.player-row{grid-template-columns:32px 1.8fr .5fr .7fr .5fr .6fr .5fr;}
+.table-header,.table-row,.player-row{grid-template-columns:32px 1.8fr .5fr .7fr .5fr .5fr .5fr;}
 .table-header>:nth-child(n+8),.table-row>:nth-child(n+8),.player-row>:nth-child(n+8){display:none;}
 .detail-grid{grid-template-columns:1fr;}
 .trade-calc{grid-template-columns:1fr;gap:12px;}
@@ -806,14 +807,17 @@ const posMean=getPosMean(p.pos, p.age||25);
 
 // CASE 1: Has projection + has history → blend with data-driven optimal weights
 if(projPPG>0 && nHist>0){
-  // PHASE DETECTION on historical data
+  // PHASE DETECTION on historical data (only full seasons — 14+ GP)
   let phase='stable';
   if(nHist>=2){
-    const diffs=[];
-    for(let i=0;i<nHist-1;i++){diffs.push(seasons[i].ppg-seasons[i+1].ppg);}
-    const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
-    if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
-    else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+    const fullSeasons=seasons.filter(s=>s.gp>=14);
+    if(fullSeasons.length>=2){
+      const diffs=[];
+      for(let i=0;i<fullSeasons.length-1;i++){diffs.push(fullSeasons[i].ppg-fullSeasons[i+1].ppg);}
+      const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
+      if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
+      else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+    }
   }
 
   // Historical weighted PPG with phase-adjusted recency
@@ -846,14 +850,17 @@ if(projPPG>0 && nHist===0){
 // CASE 3: No projection → fall back to historical-only with regression
 if(nHist===0)return 0;
 
-// Phase detection
+// Phase detection (only full seasons — 14+ GP)
 let phase='stable';
 if(nHist>=2){
-  const diffs=[];
-  for(let i=0;i<nHist-1;i++){diffs.push(seasons[i].ppg-seasons[i+1].ppg);}
-  const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
-  if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
-  else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+  const fullSeasons=seasons.filter(s=>s.gp>=14);
+  if(fullSeasons.length>=2){
+    const diffs=[];
+    for(let i=0;i<fullSeasons.length-1;i++){diffs.push(fullSeasons[i].ppg-fullSeasons[i+1].ppg);}
+    const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
+    if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
+    else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+  }
 }
 
 const recentW=PHASE_WEIGHTS[phase]||0.61;
@@ -900,27 +907,31 @@ if(p.ppg25&&p.gp25>=4){
 const cv=curve[p.age]||0.5; // age in 2025 = p.age - 1 (p.age is entering 2026)
 const ageIn2025=p.age-1;
 const cv25=curve[ageIn2025]||curve[p.age]||0.5;
-if(cv25>0)impliedPeaks.push({yr:2025,implied:Math.min(p.ppg25/cv25,ceiling)});
+if(cv25>0)impliedPeaks.push({yr:2025,implied:Math.min(p.ppg25/cv25,ceiling),gp:p.gp25});
 }
 if(p.ppg24&&p.gp24>=4){
 const ageIn2024=p.age-2;
 const cv24=curve[ageIn2024]||0.5;
-if(cv24>0)impliedPeaks.push({yr:2024,implied:Math.min(p.ppg24/cv24,ceiling)});
+if(cv24>0)impliedPeaks.push({yr:2024,implied:Math.min(p.ppg24/cv24,ceiling),gp:p.gp24||14});
 }
 if(p.ppg23&&p.gp23>=4){
 const ageIn2023=p.age-3;
 const cv23=curve[ageIn2023]||0.5;
-if(cv23>0)impliedPeaks.push({yr:2023,implied:Math.min(p.ppg23/cv23,ceiling)});
+if(cv23>0)impliedPeaks.push({yr:2023,implied:Math.min(p.ppg23/cv23,ceiling),gp:p.gp23||14});
 }
 
 if(impliedPeaks.length===0)return ceiling*0.5;
 
-// Weight recent implied peaks more heavily
+// Weight by recency × games played (more games = more reliable signal)
 impliedPeaks.sort((a,b)=>b.yr-a.yr);
 let peakEstimate;
-if(impliedPeaks.length===1)peakEstimate=impliedPeaks[0].implied;
-else if(impliedPeaks.length===2)peakEstimate=impliedPeaks[0].implied*0.65+impliedPeaks[1].implied*0.35;
-else peakEstimate=impliedPeaks[0].implied*0.50+impliedPeaks[1].implied*0.30+impliedPeaks[2].implied*0.20;
+if(impliedPeaks.length===1){peakEstimate=impliedPeaks[0].implied;}
+else{
+const recencyW=impliedPeaks.length===2?[0.65,0.35]:[0.50,0.30,0.20];
+const rawW=impliedPeaks.map((pk,i)=>recencyW[i]*Math.min(pk.gp/17,1.0));
+const totalW=rawW.reduce((s,w)=>s+w,0);
+peakEstimate=impliedPeaks.reduce((s,pk,i)=>s+pk.implied*(rawW[i]/totalW),0);
+}
 
 // Cap at position ceiling
 return Math.min(peakEstimate,ceiling);
@@ -937,21 +948,16 @@ t20:{QB:byPos.QB[19]||12,RB:byPos.RB[19]||8,WR:byPos.WR[19]||8,TE:byPos.TE[9]||7
 };
 }
 
-function calcValue(p,thresholds){
+function calcValue(p,thresholds,teRanks){
 const weightedPPG=calcWeightedPPG(p);
-if(weightedPPG<=0)return{val:0,projs:[],risk:0.5,eliteYrs:0,starterYrs:0,weightedPPG:0,peakPPG:0,proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
+if(weightedPPG<=0)return{val:0,projs:[],eliteYrs:0,starterYrs:0,weightedPPG:0,peakPPG:0,proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
 
-const risk=calcInjuryRisk(p);
 const curve=AGING[p.pos]||AGING.WR;
 const dr=DISC_RATE[p.pos]||0.15;
 const repl=REPL_LEVEL[p.pos]||8;
 const maxAge=Math.max(...Object.keys(curve).map(Number));
 
 const playerPeak=calcPlayerPeak(p);
-
-// CONFIDENCE DISCOUNT: fewer career games = less certainty
-const totalGP=(p.gp25||0)+(p.gp24||0)+(p.gp23||0);
-const confidence=Math.min(1.0,0.50+0.50*(totalGP/34));
 
 // PROJECTED GAMES PER SEASON: weighted average of recent GP
 // Captures durability — fragile players get fewer games of PAR credit
@@ -973,6 +979,11 @@ const fa=p.age+yr;
 const cv=curve[fa]||0;
 if(cv===0)break;
 
+// Regress projected GP toward healthy baseline (15.5) over 4 years
+// Year 0 uses raw projGP; by year 4+ assumes healthy starter average
+const HEALTHY_GP=15.5;
+const yearGP=Math.min(17,projGP+(HEALTHY_GP-projGP)*Math.min(yr/4,1.0));
+
 // Project PPG for this season
 const genericProj=playerPeak*cv;
 const currentPPG=weightedPPG;
@@ -989,13 +1000,14 @@ const adjPPG=pppg;
 // CHAMPIONSHIP EQUITY: Points Above Replacement, raised to power k
 // Apply DATA-DRIVEN scarcity multiplier: QB/RB/TE elite worth more than raw PAR suggests
 const par=Math.max(0,adjPPG-repl);
-const scarcity=SCARCITY_MULT[p.pos]||1.0;
-const seasonEquity=Math.pow(par,K_EXPONENT)*projGP*scarcity;
+let scarcity=SCARCITY_MULT[p.pos]||1.0;
+if(p.pos==='TE'&&teRanks&&teRanks[p.name]>TE_ELITE_CUTOFF){scarcity=1.0;}
+const seasonEquity=Math.pow(par,K_EXPONENT)*yearGP*scarcity;
 
-// Discount by year and confidence; apply injury risk via GP already
-const disc=seasonEquity*confidence*risk/Math.pow(1+dr,yr);
+// Discount by year; durability captured via regressing projGP
+const disc=seasonEquity/Math.pow(1+dr,yr);
 npv+=disc;
-projs.push({yr:2026+yr,age:fa,ppg:+pppg.toFixed(1),adjPPG:+adjPPG.toFixed(1),par:+par.toFixed(1),gp:Math.round(projGP),disc:Math.round(disc)});
+projs.push({yr:2026+yr,age:fa,ppg:+pppg.toFixed(1),adjPPG:+adjPPG.toFixed(1),par:+par.toFixed(1),gp:Math.round(yearGP),disc:Math.round(disc)});
 }
 
 // ELITE & STARTER YEARS REMAINING
@@ -1009,7 +1021,7 @@ return pr.par>=posElite;
 const starterYrs=projs.filter(pr=>pr.par>0).length;
 
 const rawVal=Math.round(npv);
-return{val:rawVal,projs,risk,eliteYrs,starterYrs,weightedPPG,peakPPG:playerPeak,confidence,projGP:Math.round(projGP),proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
+return{val:rawVal,projs,eliteYrs,starterYrs,weightedPPG,peakPPG:playerPeak,projGP:Math.round(projGP),proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
 }
 
 function getTier(v){
@@ -1269,8 +1281,13 @@ const DRAFT_PICK_TIERS={
 };
 
 // Process all players with values
+// First pass: compute TE rankings by weightedPPG for scarcity split
+const teRanks={};
+const tePPGs=PLAYERS.filter(p=>p.pos==='TE').map(p=>({name:p.name,wppg:calcWeightedPPG(p)})).sort((a,b)=>b.wppg-a.wppg);
+tePPGs.forEach((t,i)=>{teRanks[t.name]=i+1;});
+
 const processedPlayers=PLAYERS.map(p=>{
-const v=calcValue(p,eliteThresholds);
+const v=calcValue(p,eliteThresholds,teRanks);
 const tier=getTier(v.val);
 const weightedPPG=v.weightedPPG;
 // livePPG = raw 2026 projection for lineup/weekly use; falls back to blended if no projection
@@ -1289,7 +1306,6 @@ val:data.avg,
 tier:getTier(data.avg),
 ppg:0,ppg25:0,ppg24:0,ppg23:0,
 eliteYrs:data.eyr,starterYrs:data.syr,
-risk:1,
 projs:[],
 weightedPPG:0,
 peakPPG:0,
@@ -1459,7 +1475,7 @@ function PlayerRow(props){
         h('div',{className:'comp-row'},h('span',null,'Weighted PPG'),h('span',{className:'mono',style:{color:'var(--accent-cyan)'}},p.weightedPPG?p.weightedPPG.toFixed(1):'\u2014')),
         h('div',{className:'comp-row'},h('span',null,'Elite Yrs'),h('span',{className:'mono',style:{color:p.eliteYrs>=3?'var(--accent-green)':p.eliteYrs>=1?'var(--accent-gold)':'var(--text-muted)'}},p.eliteYrs)),
         h('div',{className:'comp-row'},h('span',null,'Starter Yrs'),h('span',{className:'mono'},p.starterYrs)),
-        h('div',{className:'comp-row'},h('span',null,'Confidence'),h('span',{className:'mono'},(p.confidence!==undefined?(p.confidence*100).toFixed(0)+'%':'\u2014')))
+        h('div',{className:'comp-row'},h('span',null,'Proj GP'),h('span',{className:'mono'},p.projGP||'\u2014'))
       )
     );
   }
@@ -1489,11 +1505,10 @@ function PlayerRow(props){
       h('span',{className:'pos-badge',style:posBadgeStyle,'data-pos':p.pos},posLabel),
       h('div',{className:'mono',style:{fontWeight:700,fontSize:14,color:p.tier&&p.tier.c?p.tier.c:'inherit'}},p.val?p.val.toLocaleString():'0'),
       h('div',{className:'mono',style:{fontSize:11,color:'var(--text-muted)'}},ktcValStr),
-      h('div',{className:'tier-badge',style:{background:((p.tier&&p.tier.c)||'#555')+'22',color:(p.tier&&p.tier.c)||'#555',border:'1px solid '+((p.tier&&p.tier.c)||'#555')+'44',fontSize:10,padding:'2px 6px'}},p.tier&&p.tier.t?p.tier.t:''),
+      edgeLbl ? h('div',{style:{fontSize:10,fontWeight:700,color:edgeClr}},edgeLbl) : h('div',null,''),
       h('div',{className:'mono',style:{fontSize:12}},ppgText),
       h('div',{className:'mono',style:{color:eliteColor,fontSize:12}},eliteText),
       h('div',{className:'mono',style:{fontSize:12}},starterText),
-      edgeLbl ? h('div',{style:{fontSize:10,fontWeight:700,color:edgeClr}},edgeLbl) : h('div',null,''),
       h('span',{style:{color:'var(--text-muted)',fontSize:12}},expanded?'\u25B2':'\u25BC')
     ),
     expanded?compRows:null
@@ -1506,6 +1521,7 @@ function PlayerRow(props){
 // ============================================================
 function LeagueView(props){
   var onTeamData = props.onTeamData;
+  var preloadedTeamData = props.preloadedTeamData;
   var leagueData = useState(null);
   var ld = leagueData[0]; var setLd = leagueData[1];
   var usersState = useState(null);
@@ -1514,7 +1530,7 @@ function LeagueView(props){
   var rosters = rostersState[0]; var setRosters = rostersState[1];
   var nflState = useState(null);
   var nflPlayers = nflState[0]; var setNfl = nflState[1];
-  var loadState = useState(true);
+  var loadState = useState(!preloadedTeamData);
   var loading = loadState[0]; var setLoading = loadState[1];
   var errState = useState(null);
   var error = errState[0]; var setError = errState[1];
@@ -1523,6 +1539,10 @@ function LeagueView(props){
   var LID = '1312086802231734272';
 
   useEffect(function(){
+    if(preloadedTeamData && preloadedTeamData.length > 0){
+      setLoading(false);
+      return;
+    }
     Promise.all([
       fetch('https://api.sleeper.app/v1/league/'+LID),
       fetch('https://api.sleeper.app/v1/league/'+LID+'/users'),
@@ -1537,6 +1557,7 @@ function LeagueView(props){
   },[]);
 
   var teamData = useMemo(function(){
+    if(preloadedTeamData && preloadedTeamData.length > 0) return preloadedTeamData;
     if(!rosters||!users||!nflPlayers) return [];
     var teams = rosters.map(function(r){
       var user = users.find(function(u){return u.user_id===r.owner_id;});
@@ -1652,7 +1673,7 @@ function LeagueView(props){
         ),
         h('div',{style:{display:'flex',alignItems:'center',gap:16}},
           h('div',{style:{textAlign:'right'}},
-            h('div',{className:'mono',style:{fontSize:16,fontWeight:700}},t.totalVal.toLocaleString()),
+            h('div',{className:'mono',style:{fontSize:16,fontWeight:700}},Math.round(t.totalVal).toLocaleString()),
             h('div',{style:{fontSize:10,color:'var(--text-muted)'}},'Total Value')
           ),
           h('div',{style:{textAlign:'right'}},
@@ -1780,7 +1801,18 @@ function TradeCalculator(props){
     setTimeout(function(){
       var poolA = teamAData.rosterPlayers.filter(function(p){return p.val>30 && p.pos && !excludes[p.name];});
       var poolB = teamBData.rosterPlayers.filter(function(p){return p.val>30 && p.pos && !excludes[p.name];});
-      var mustInclude = Object.keys(includes).filter(function(n){return includes[n];});
+      // Split must-include by which team they belong to
+      var mustIncludeA = [];
+      var mustIncludeB = [];
+      var teamANames = {};
+      var teamBNames = {};
+      teamAData.rosterPlayers.forEach(function(p){teamANames[p.name]=true;});
+      teamBData.rosterPlayers.forEach(function(p){teamBNames[p.name]=true;});
+      Object.keys(includes).forEach(function(n){
+        if(!includes[n]) return;
+        if(teamANames[n]) mustIncludeA.push(n);
+        else if(teamBNames[n]) mustIncludeB.push(n);
+      });
       var beforeA = buildOptimalLineup(teamAData.rosterPlayers);
       var beforeAPPG = beforeA.starterPPG;
       var beforeAPAR = beforeA.starters.reduce(function(s,p){return s+getPlayerPAR(p);},0);
@@ -1788,9 +1820,14 @@ function TradeCalculator(props){
 
       function tryTrade(give,get){
         var giveNames = give.map(function(p){return p.name;});
-        // Must include all forced players
-        for(var mi=0;mi<mustInclude.length;mi++){
-          if(giveNames.indexOf(mustInclude[mi])<0) return;
+        var getNames = get.map(function(p){return p.name;});
+        // Must include all forced Team A players in give side
+        for(var mi=0;mi<mustIncludeA.length;mi++){
+          if(giveNames.indexOf(mustIncludeA[mi])<0) return;
+        }
+        // Must include all forced Team B players in get side
+        for(var mi2=0;mi2<mustIncludeB.length;mi2++){
+          if(getNames.indexOf(mustIncludeB[mi2])<0) return;
         }
         var giveVal = give.reduce(function(s,p){return s+p.val;},0);
         var getVal = get.reduce(function(s,p){return s+p.val;},0);
@@ -1798,14 +1835,9 @@ function TradeCalculator(props){
         if(modelEdge <= 0) return;
         var giveKtc = give.reduce(function(s,p){return s+getKtcVal(p);},0);
         var getKtc = get.reduce(function(s,p){return s+getKtcVal(p);},0);
-        // Use KTC raw adjustment to check fairness (opponent's perspective)
-        // Opponent gives 'get' players, receives 'give' players
         var ktcFair = ktcTradeFairness(give, get);
-        // ktcFair.diff > 0 means Team A (give side) has more raw adj = opponent wins on KTC
-        // ktcFair.diff < 0 means opponent loses on KTC
-        // We want opponent to win or break even: ktcFair.diff >= 0 OR evenPlayerVal small
-        var ktcEdge = ktcFair.diff; // positive = opponent wins on KTC adjusted
-        if(ktcEdge < 0 && ktcFair.evenPlayerVal > 500) return; // opponent loses too much on KTC adjusted
+        var ktcEdge = ktcFair.diff;
+        if(ktcEdge < 0 && ktcFair.evenPlayerVal > 500) return;
         var newRosterA = teamAData.rosterPlayers.filter(function(p){return giveNames.indexOf(p.name)<0;});
         get.forEach(function(p){
           var existing = teamBData.rosterPlayers.find(function(rp){return rp.name===p.name;});
@@ -1825,30 +1857,49 @@ function TradeCalculator(props){
         });
       }
 
-      var hasInc = mustInclude.length > 0;
+      var hasIncA = mustIncludeA.length > 0;
+      var hasIncB = mustIncludeB.length > 0;
+      // 1-for-1
       for(var i=0;i<poolA.length;i++){
-        if(hasInc && mustInclude.length===1 && poolA[i].name!==mustInclude[0]) continue;
-        if(hasInc && mustInclude.length>1) continue;
-        for(var j=0;j<poolB.length;j++){ tryTrade([poolA[i]],[poolB[j]]); }
+        if(hasIncA && mustIncludeA.length===1 && poolA[i].name!==mustIncludeA[0]) continue;
+        if(hasIncA && mustIncludeA.length>1) continue;
+        for(var j=0;j<poolB.length;j++){
+          if(hasIncB && mustIncludeB.length===1 && poolB[j].name!==mustIncludeB[0]) continue;
+          if(hasIncB && mustIncludeB.length>1) continue;
+          tryTrade([poolA[i]],[poolB[j]]);
+        }
       }
+      // 2-for-1
       for(var i=0;i<Math.min(poolA.length,20);i++){
         for(var i2=i+1;i2<Math.min(poolA.length,20);i2++){
-          if(hasInc){var nn=[poolA[i].name,poolA[i2].name];if(!mustInclude.every(function(n){return nn.indexOf(n)>=0;}))continue;}
-          for(var j=0;j<poolB.length;j++){ tryTrade([poolA[i],poolA[i2]],[poolB[j]]); }
+          if(hasIncA){var nn=[poolA[i].name,poolA[i2].name];if(!mustIncludeA.every(function(n){return nn.indexOf(n)>=0;}))continue;}
+          for(var j=0;j<poolB.length;j++){
+            if(hasIncB && mustIncludeB.length===1 && poolB[j].name!==mustIncludeB[0]) continue;
+            if(hasIncB && mustIncludeB.length>1) continue;
+            tryTrade([poolA[i],poolA[i2]],[poolB[j]]);
+          }
         }
       }
+      // 1-for-2
       for(var i=0;i<poolA.length;i++){
-        if(hasInc && mustInclude.length===1 && poolA[i].name!==mustInclude[0]) continue;
-        if(hasInc && mustInclude.length>1) continue;
+        if(hasIncA && mustIncludeA.length===1 && poolA[i].name!==mustIncludeA[0]) continue;
+        if(hasIncA && mustIncludeA.length>1) continue;
         for(var j=0;j<Math.min(poolB.length,20);j++){
-          for(var j2=j+1;j2<Math.min(poolB.length,20);j2++){ tryTrade([poolA[i]],[poolB[j],poolB[j2]]); }
+          for(var j2=j+1;j2<Math.min(poolB.length,20);j2++){
+            if(hasIncB){var nnB=[poolB[j].name,poolB[j2].name];if(!mustIncludeB.every(function(n){return nnB.indexOf(n)>=0;}))continue;}
+            tryTrade([poolA[i]],[poolB[j],poolB[j2]]);
+          }
         }
       }
+      // 2-for-2
       for(var i=0;i<Math.min(poolA.length,12);i++){
         for(var i2=i+1;i2<Math.min(poolA.length,12);i2++){
-          if(hasInc){var nn2=[poolA[i].name,poolA[i2].name];if(!mustInclude.every(function(n){return nn2.indexOf(n)>=0;}))continue;}
+          if(hasIncA){var nn2=[poolA[i].name,poolA[i2].name];if(!mustIncludeA.every(function(n){return nn2.indexOf(n)>=0;}))continue;}
           for(var j=0;j<Math.min(poolB.length,12);j++){
-            for(var j2=j+1;j2<Math.min(poolB.length,12);j2++){ tryTrade([poolA[i],poolA[i2]],[poolB[j],poolB[j2]]); }
+            for(var j2=j+1;j2<Math.min(poolB.length,12);j2++){
+              if(hasIncB){var nnB2=[poolB[j].name,poolB[j2].name];if(!mustIncludeB.every(function(n){return nnB2.indexOf(n)>=0;}))continue;}
+              tryTrade([poolA[i],poolA[i2]],[poolB[j],poolB[j2]]);
+            }
           }
         }
       }
@@ -3744,18 +3795,123 @@ function GMAnalyzer(props){
 // APP
 // ============================================================
 function App(){
-  var tabState = useState('rankings'); var tab = tabState[0]; var setTab = tabState[1];
+  var tabState = useState('league'); var tab = tabState[0]; var setTab = tabState[1];
   var searchState = useState(''); var search = searchState[0]; var setSearch = searchState[1];
   var posState = useState('ALL'); var posFilter = posState[0]; var setPosFilter = posState[1];
   var sortState = useState('value'); var sortBy = sortState[0]; var setSortBy = sortState[1];
   var expState = useState(null); var expandedId = expState[0]; var setExpandedId = expState[1];
   var tdState = useState(null); var teamData = tdState[0]; var setTeamData = tdState[1];
+  var appNflState = useState(null); var appNflPlayers = appNflState[0]; var setAppNfl = appNflState[1];
+  var appUsersState = useState(null); var appUsers = appUsersState[0]; var setAppUsers = appUsersState[1];
+  var appRostersState = useState(null); var appRosters = appRostersState[0]; var setAppRosters = appRostersState[1];
+  var appLeagueLoadedState = useState(false); var appLeagueLoaded = appLeagueLoadedState[0]; var setAppLeagueLoaded = appLeagueLoadedState[1];
+
+  // Fetch league data on app mount
+  var APP_LID = '1312086802231734272';
+  useEffect(function(){
+    Promise.all([
+      fetch('https://api.sleeper.app/v1/league/'+APP_LID),
+      fetch('https://api.sleeper.app/v1/league/'+APP_LID+'/users'),
+      fetch('https://api.sleeper.app/v1/league/'+APP_LID+'/rosters')
+    ]).then(function(res){return Promise.all(res.map(function(r){return r.json();}));})
+    .then(function(data){
+      setAppUsers(data[1]); setAppRosters(data[2]);
+      return fetch('https://api.sleeper.app/v1/players/nfl');
+    }).then(function(r){return r.json();})
+    .then(function(np){
+      setAppNfl(np);
+      setAppLeagueLoaded(true);
+    }).catch(function(e){console.log('[League] Load failed:',e);});
+  },[]);
+
+  // Build teamData whenever league data is ready
+  useEffect(function(){
+    if(!appRosters||!appUsers||!appNflPlayers) return;
+    var teams = appRosters.map(function(r){
+      var user = appUsers.find(function(u){return u.user_id===r.owner_id;});
+      var teamName = (user && user.metadata && user.metadata.team_name) || (user && user.display_name) || 'Unknown';
+      var playerIds = r.players || [];
+      var rosterPlayers = playerIds.map(function(pid){
+        var np = appNflPlayers[pid];
+        if(!np) return null;
+        var fullName = np.first_name + ' ' + np.last_name;
+        var normFull = fullName.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+        var normFullClean = normFull.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+        var match = processedPlayers.find(function(pp){
+          var normPP = pp.name.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+          var normPPClean = normPP.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+          if(normPP === normFull) return true;
+          if(normPPClean === normFullClean && pp.pos === np.position) return true;
+          return false;
+        });
+        return {name:fullName,pos:np.position||'',team:np.team||'',
+          val:match?match.val:0,ppg:match?match.ppg:0,livePPG:match?match.livePPG:(match?match.ppg:0),age:match?match.age:(np.age||0),
+          tier:match?match.tier:getTier(0),matched:!!match,peakPPG:match?match.peakPPG:0,rank:match?match.rank:999,
+          eliteYrs:match?match.eliteYrs:0,starterYrs:match?match.starterYrs:0};
+      }).filter(Boolean);
+      var lineup = buildOptimalLineup(rosterPlayers);
+      var byPosVal = {QB:0,RB:0,WR:0,TE:0};
+      rosterPlayers.forEach(function(p){if(byPosVal[p.pos]!==undefined)byPosVal[p.pos]+=p.val;});
+      var totalVal = lineup.starterVal + lineup.benchVal;
+      var starterPAR = lineup.starters.reduce(function(s,p){return s+getPlayerPAR(p);},0);
+      return {teamName:teamName,rosterPlayers:rosterPlayers,starters:lineup.starters,bench:lineup.bench,
+        starterVal:lineup.starterVal,starterPPG:lineup.starterPPG,starterPAR:starterPAR,benchVal:lineup.benchVal,totalVal:totalVal,
+        byPos:byPosVal,wins:r.settings?r.settings.wins||0:0,losses:r.settings?r.settings.losses||0:0};
+    }).sort(function(a,b){return b.totalVal-a.totalVal;});
+    setTeamData(teams);
+    console.log('[League] Auto-loaded '+teams.length+' teams');
+  },[appRosters,appUsers,appNflPlayers]);
 
   // KTC Refresh state
   var ktcStatusState = useState(''); var ktcStatus = ktcStatusState[0]; var setKtcStatus = ktcStatusState[1];
   var ktcModalState = useState(false); var showKtcModal = ktcModalState[0]; var setShowKtcModal = ktcModalState[1];
   var ktcPasteState = useState(''); var ktcPasteText = ktcPasteState[0]; var setKtcPasteText = ktcPasteState[1];
   var ktcVersionState = useState(0); var ktcVersion = ktcVersionState[0]; var setKtcVersion = ktcVersionState[1];
+
+  // Auto-load league/roster data on mount so all tabs have it
+  useEffect(function(){
+    var LID_APP='1312086802231734272';
+    Promise.all([
+      fetch('https://api.sleeper.app/v1/league/'+LID_APP+'/users'),
+      fetch('https://api.sleeper.app/v1/league/'+LID_APP+'/rosters'),
+      fetch('https://api.sleeper.app/v1/players/nfl')
+    ]).then(function(res){return Promise.all(res.map(function(r){return r.json();}));})
+    .then(function(data){
+      var users=data[0];var rosters=data[1];var nfl=data[2];
+      var teams = rosters.map(function(r){
+        var user = users.find(function(u){return u.user_id===r.owner_id;});
+        var teamName = (user && user.metadata && user.metadata.team_name) || (user && user.display_name) || 'Unknown';
+        var playerIds = r.players || [];
+        var rosterPlayers = playerIds.map(function(pid){
+          var np = nfl[pid];
+          if(!np) return null;
+          var fullName = np.first_name + ' ' + np.last_name;
+          var normFull = fullName.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+          var normFullClean = normFull.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+          var match = processedPlayers.find(function(pp){
+            var normPP = pp.name.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+            var normPPClean = normPP.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+            if(normPP === normFull) return true;
+            if(normPPClean === normFullClean && pp.pos === np.position) return true;
+            return false;
+          });
+          return {name:fullName,pos:np.position||'',team:np.team||'',
+            val:match?match.val:0,ppg:match?match.ppg:0,livePPG:match?match.livePPG:(match?match.ppg:0),age:match?match.age:(np.age||0),
+            tier:match?match.tier:getTier(0),matched:!!match,peakPPG:match?match.peakPPG:0,rank:match?match.rank:999,
+            eliteYrs:match?match.eliteYrs:0,starterYrs:match?match.starterYrs:0};
+        }).filter(Boolean);
+        var lineup = buildOptimalLineup(rosterPlayers);
+        var byPosVal = {QB:0,RB:0,WR:0,TE:0};
+        rosterPlayers.forEach(function(p){if(byPosVal[p.pos]!==undefined)byPosVal[p.pos]+=p.val;});
+        var totalVal = lineup.starterVal + lineup.benchVal;
+        var starterPAR = lineup.starters.reduce(function(s,p){return s+getPlayerPAR(p);},0);
+        return {teamName:teamName,rosterPlayers:rosterPlayers,starters:lineup.starters,bench:lineup.bench,
+          starterVal:lineup.starterVal,starterPPG:lineup.starterPPG,starterPAR:starterPAR,benchVal:lineup.benchVal,totalVal:totalVal,
+          byPos:byPosVal,wins:r.settings?r.settings.wins||0:0,losses:r.settings?r.settings.losses||0:0};
+      }).sort(function(a,b){return b.totalVal-a.totalVal;});
+      setTeamData(teams);
+    }).catch(function(e){console.log('[League] Auto-load failed:',e);});
+  },[]);
 
   function updateKtcData(newData){
     // Replace entries AND normalize names to match our player data
@@ -3942,7 +4098,7 @@ function App(){
     return list;
   },[posFilter,search,sortBy,ktcVersion]);
 
-  var tabs = [{id:'rankings',label:'Rankings'},{id:'trade',label:'Trade Calc'},{id:'threeway',label:'3-Way'},{id:'league',label:'League'},{id:'compare',label:'Compare'},{id:'optimizer',label:'Optimizer'},{id:'winprob',label:'Win Prob'},{id:'gm',label:'GM Intel'},{id:'analysis',label:'Analysis'},{id:'sellhigh',label:'Sell High'},{id:'waivers',label:'Waivers'},{id:'ktc',label:'Market Edge'},{id:'scarcity',label:'Scarcity'}];
+  var tabs = [{id:'league',label:'League'},{id:'rankings',label:'Rankings'},{id:'trade',label:'Trade Calc'},{id:'compare',label:'Compare'},{id:'winprob',label:'Win Prob'},{id:'ktc',label:'Market Edge'}];
   var tabButtons = tabs.map(function(t){
     return h('button',{key:t.id,className:'nav-tab'+(tab===t.id?' active':''),onClick:function(){setTab(t.id);}},t.label);
   });
@@ -3953,7 +4109,7 @@ function App(){
 
   var tableHeader = h('div',{className:'table-header'},
     h('div',null,'#'),h('div',null,'PLAYER'),h('div',null,'POS'),h('div',null,'VALUE'),
-    h('div',null,'KTC'),h('div',null,'TIER'),h('div',null,'PPG'),h('div',null,'EYR'),h('div',null,'SYR'),h('div',null,'EDGE'),h('div',null)
+    h('div',null,'KTC'),h('div',null,'EDGE'),h('div',null,'PPG'),h('div',null,'EYR'),h('div',null,'SYR'),h('div',null)
   );
 
   var playerRows = filtered.map(function(p){
@@ -3979,7 +4135,7 @@ function App(){
   } else if(tab==='threeway'){
     content = h(ThreeWayTrade,{teamData:teamData});
   } else if(tab==='league'){
-    content = h(LeagueView,{onTeamData:setTeamData});
+    content = h(LeagueView,{onTeamData:setTeamData,preloadedTeamData:teamData});
   } else if(tab==='compare'){
     content = h(TeamComparison,{teamData:teamData});
   } else if(tab==='analysis'){
