@@ -60,19 +60,20 @@ body{font-family:'Outfit',sans-serif;background:var(--bg-primary);color:var(--te
 .sort-select{padding:7px 10px;background:var(--bg-secondary);border:1px solid var(--border);border-radius:8px;color:var(--text-primary);font-size:12px;font-family:'Outfit',sans-serif;cursor:pointer;outline:none;}
 .player-count{font-size:12px;color:var(--text-muted);margin-left:auto;}
 .table-container{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-secondary);}
-.table-header{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .6fr .5fr .5fr .5fr .5fr .4fr;padding:8px 12px;background:var(--bg-tertiary);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;align-items:center;}
-.table-row,.player-row{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .6fr .5fr .5fr .5fr .5fr .4fr;padding:10px 12px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .15s;font-size:13px;}
+.table-header{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .5fr .5fr .5fr .5fr .4fr;padding:8px 12px;background:var(--bg-tertiary);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;align-items:center;}
+.table-row,.player-row{display:grid;grid-template-columns:36px 2fr .5fr .7fr .5fr .5fr .5fr .5fr .5fr .4fr;padding:10px 12px;border-bottom:1px solid var(--border);align-items:center;cursor:pointer;transition:background .15s;font-size:13px;}
 .table-row:hover,.player-row:hover{background:var(--bg-hover);}
 .table-row:last-child{border-bottom:none;}
 .rank-num{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;color:var(--text-muted);}
 .player-info{display:flex;align-items:center;gap:8px;min-width:0;}
 .player-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .player-meta{font-size:11px;color:var(--text-muted);}
-.pos-badge{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;color:#fff;}
-.pos-badge.QB{background:var(--qb-color);}
-.pos-badge.RB{background:var(--rb-color);}
-.pos-badge.WR{background:var(--wr-color);}
-.pos-badge.TE{background:var(--te-color);}
+.pos-badge{display:inline-flex;align-items:center;justify-content:center;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:700;color:#fff;white-space:nowrap;}
+.pos-badge.QB{background:#ff2a6d;}
+.pos-badge.RB{background:#00ceb8;}
+.pos-badge.WR{background:#58a7ff;}
+.pos-badge.TE{background:#ffae58;}
+.pos-badge.PICK{background:var(--accent-gold);}
 .value-cell{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;}
 .tier-badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:.3px;}
 .ppg-cell{font-family:'JetBrains Mono',monospace;font-size:13px;}
@@ -137,7 +138,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg-primary);color:var(--te
 .scarcity-bar{height:6px;background:var(--bg-tertiary);border-radius:3px;overflow:hidden;margin-top:6px;}
 .scarcity-fill{height:100%;border-radius:3px;}
 @media(max-width:900px){
-.table-header,.table-row,.player-row{grid-template-columns:32px 1.8fr .5fr .7fr .5fr .6fr .5fr;}
+.table-header,.table-row,.player-row{grid-template-columns:32px 1.8fr .5fr .7fr .5fr .5fr .5fr;}
 .table-header>:nth-child(n+8),.table-row>:nth-child(n+8),.player-row>:nth-child(n+8){display:none;}
 .detail-grid{grid-template-columns:1fr;}
 .trade-calc{grid-template-columns:1fr;gap:12px;}
@@ -145,14 +146,72 @@ body{font-family:'Outfit',sans-serif;background:var(--bg-primary);color:var(--te
 .scarcity-section{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:600px){
-.table-header,.table-row,.player-row{grid-template-columns:28px 1.5fr .5fr .6fr .5fr;}
+.app-container{padding:0 8px;}
+.header{padding:8px 0 12px;}
+.logo h1{font-size:16px;}
+.logo .league-tag{font-size:9px;}
+.logo{flex-wrap:wrap;gap:4px;}
+.header-top{flex-direction:column;align-items:flex-start;gap:6px;}
+.header-top>div:nth-child(2){display:flex;gap:4px;width:100%;}
+.header-top>div:nth-child(2) button{flex:1;font-size:9px !important;padding:4px 6px !important;}
+.header-top>div:nth-child(2) span{font-size:9px !important;}
+.nav-tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%;flex-wrap:nowrap;gap:2px;padding:2px;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{padding:6px 10px;font-size:11px;white-space:nowrap;flex-shrink:0;}
+.controls-row{flex-direction:column;align-items:stretch;gap:6px;}
+.search-box{max-width:100%;min-width:unset;}
+.search-box input{font-size:14px;padding:10px 12px 10px 34px;}
+.pos-filters{justify-content:center;}
+.pos-btn{padding:6px 10px;font-size:11px;}
+.sort-select{width:100%;padding:10px;}
+.player-count{text-align:center;margin-left:0;}
+.table-header,.table-row,.player-row{grid-template-columns:26px 1.4fr .5fr .6fr .5fr;padding:8px 8px;font-size:12px;}
 .table-header>:nth-child(n+6),.table-row>:nth-child(n+6),.player-row>:nth-child(n+6){display:none;}
-.header-top{flex-direction:column;align-items:flex-start;}
-.controls-row{flex-direction:column;align-items:stretch;}
-.search-box{max-width:100%;}
+.table-header{font-size:10px;padding:6px 8px;}
+.rank-num{font-size:11px;}
+.player-name{font-size:12px;}
+.player-meta{font-size:10px;}
+.value-cell{font-size:13px;}
+.pos-badge{padding:2px 6px;font-size:10px;}
+.tier-badge{font-size:10px;padding:2px 6px;}
+.ppg-cell{font-size:12px;}
+.player-detail{padding:10px;}
+.detail-grid{grid-template-columns:1fr;gap:10px;}
+.comp-row{font-size:11px;}
+.trade-calc{grid-template-columns:1fr;gap:10px;padding:10px 0;}
+.trade-side{padding:10px;}
+.trade-side h3{font-size:13px;}
+.trade-search{font-size:14px;padding:10px 12px;}
+.trade-result-item{font-size:11px;padding:8px;}
+.trade-player-chip{font-size:12px;padding:6px 8px;}
+.trade-total-value{font-size:18px;}
+.trade-middle{flex-direction:column;padding:8px 0;}
+.trade-diff-value{font-size:22px;}
+.fairness-meter{width:100%;max-width:200px;}
+}
+@media(max-width:480px){
+.app-container{padding:0 4px;}
+.logo h1{font-size:14px;}
+.logo .league-tag{font-size:8px;}
+.nav-tab{padding:5px 8px;font-size:10px;}
+.table-header,.table-row,.player-row{grid-template-columns:22px 1fr .5fr .6fr;padding:6px 6px;gap:4px;}
+.table-header>:nth-child(n+5),.table-row>:nth-child(n+5),.player-row>:nth-child(n+5){display:none;}
+.player-name{font-size:11px;}
+.player-meta{font-size:9px;}
+.value-cell{font-size:12px;}
+.rank-num{font-size:10px;}
 }
 .empty-state{text-align:center;padding:60px 20px;color:var(--text-muted);}
 .empty-state h3{font-size:18px;margin-bottom:8px;color:var(--text-secondary);}
+/* Mobile-friendly touch targets and scrolling */
+@media(max-width:600px){
+.trade-side .trade-result-item{padding:10px 8px;min-height:44px;}
+.trade-player-chip{min-height:44px;}
+.trade-player-chip .remove{font-size:22px;padding:4px 8px;}
+.nav-tab{min-height:36px;}
+.pos-btn{min-height:36px;}
+.add-trade-btn{min-height:36px;padding:6px 10px;font-size:11px;}
+}
 </style>
 </head>
 <body>
@@ -242,493 +301,485 @@ var K_EXPONENT=1.0;
 // 2026 PRESEASON CONSENSUS PROJECTIONS (PPG per game, half PPR, 4pt pass TD)
 // Source: FantasyPros preseason 2026 projection set
 var PROJ_2026={
-'Josh Allen':{p:'QB',ppg:22.0,gp:16},
-'Drake Maye':{p:'QB',ppg:21.9,gp:16},
-'Lamar Jackson':{p:'QB',ppg:20.7,gp:16},
-'Bijan Robinson':{p:'RB',ppg:20.7,gp:15},
-'Jahmyr Gibbs':{p:'RB',ppg:20.7,gp:15},
-'Jalen Hurts':{p:'QB',ppg:20.6,gp:16},
-'Christian McCaffrey':{p:'RB',ppg:20.6,gp:15},
-'Joe Burrow':{p:'QB',ppg:20.2,gp:16},
-'Jayden Daniels':{p:'QB',ppg:19.9,gp:16},
-'Jaxson Dart':{p:'QB',ppg:19.6,gp:16},
-'Trevor Lawrence':{p:'QB',ppg:19.5,gp:16},
-'Justin Herbert':{p:'QB',ppg:19.4,gp:16},
-'Caleb Williams':{p:'QB',ppg:19.2,gp:16},
-'Dak Prescott':{p:'QB',ppg:19.0,gp:16},
-'Matthew Stafford':{p:'QB',ppg:18.4,gp:16},
-'Brock Purdy':{p:'QB',ppg:18.4,gp:16},
-'Jared Goff':{p:'QB',ppg:18.0,gp:16},
-'Bo Nix':{p:'QB',ppg:17.9,gp:16},
-'Patrick Mahomes II':{p:'QB',ppg:17.8,gp:16},
-'De\'Von Achane':{p:'RB',ppg:17.5,gp:15},
-'Jonathan Taylor':{p:'RB',ppg:17.5,gp:15},
-'Daniel Jones':{p:'QB',ppg:17.4,gp:13},
-'Puka Nacua':{p:'WR',ppg:17.4,gp:16},
-'Ja\'Marr Chase':{p:'WR',ppg:17.4,gp:16},
-'Jaxon Smith-Njigba':{p:'WR',ppg:17.1,gp:16},
-'C.J. Stroud':{p:'QB',ppg:16.9,gp:16},
-'Tyler Shough':{p:'QB',ppg:16.9,gp:16},
-'Baker Mayfield':{p:'QB',ppg:16.8,gp:16},
-'Ashton Jeanty':{p:'RB',ppg:16.8,gp:15},
-'Kyler Murray':{p:'QB',ppg:16.5,gp:16},
-'Saquon Barkley':{p:'RB',ppg:16.5,gp:15},
-'Justin Fields':{p:'QB',ppg:16.4,gp:6},
-'Jordan Love':{p:'QB',ppg:16.2,gp:16},
-'Malik Willis':{p:'QB',ppg:16.2,gp:16},
-'James Cook':{p:'RB',ppg:16.2,gp:15},
-'Omarion Hampton':{p:'RB',ppg:16.1,gp:15},
-'Will Howard':{p:'QB',ppg:15.9,gp:4},
-'Mac Jones':{p:'QB',ppg:15.9,gp:1},
-'Jimmy Garoppolo':{p:'QB',ppg:15.9,gp:1},
-'Derrick Henry':{p:'RB',ppg:15.8,gp:15},
-'Amon-Ra St. Brown':{p:'WR',ppg:15.7,gp:16},
-'Chase Brown':{p:'RB',ppg:15.5,gp:15},
-'Justin Jefferson':{p:'WR',ppg:15.4,gp:16},
-'Aaron Rodgers':{p:'QB',ppg:15.3,gp:13},
-'Bucky Irving':{p:'RB',ppg:15.1,gp:15},
-'Kyren Williams':{p:'RB',ppg:15.0,gp:15},
-'Cam Skattebo':{p:'RB',ppg:15.0,gp:15},
-'Jacoby Brissett':{p:'QB',ppg:14.9,gp:16},
-'CeeDee Lamb':{p:'WR',ppg:14.7,gp:16},
-'Bryce Young':{p:'QB',ppg:14.5,gp:16},
-'J.J. McCarthy':{p:'QB',ppg:14.5,gp:3},
-'Riley Leonard':{p:'QB',ppg:14.4,gp:4},
-'Fernando Mendoza':{p:'QB',ppg:14.3,gp:16},
-'Josh Jacobs':{p:'RB',ppg:14.3,gp:15},
-'Malik Nabers':{p:'WR',ppg:14.2,gp:15},
-'Michael Penix Jr.':{p:'QB',ppg:14.1,gp:16},
-'Breece Hall':{p:'RB',ppg:14.1,gp:15},
-'Travis Etienne Jr.':{p:'RB',ppg:14.1,gp:15},
-'Deshaun Watson':{p:'QB',ppg:14.0,gp:9},
-'Kenneth Walker III':{p:'RB',ppg:14.0,gp:15},
-'Jeremiyah Love':{p:'RB',ppg:14.0,gp:15},
-'Drake London':{p:'WR',ppg:13.9,gp:16},
-'Nico Collins':{p:'WR',ppg:13.7,gp:16},
-'Cam Ward':{p:'QB',ppg:13.6,gp:16},
-'Quinshon Judkins':{p:'RB',ppg:13.6,gp:10},
-'RJ Harvey':{p:'RB',ppg:13.5,gp:15},
-'George Pickens':{p:'WR',ppg:13.4,gp:16},
-'Javonte Williams':{p:'RB',ppg:13.3,gp:15},
-'TreVeyon Henderson':{p:'RB',ppg:13.2,gp:15},
-'Trey McBride':{p:'TE',ppg:13.2,gp:16},
-'A.J. Brown':{p:'WR',ppg:13.0,gp:16},
-'D\'Andre Swift':{p:'RB',ppg:12.9,gp:15},
-'Desmond Ridder':{p:'QB',ppg:12.8,gp:1},
-'Chris Olave':{p:'WR',ppg:12.8,gp:16},
-'Rashee Rice':{p:'WR',ppg:12.6,gp:16},
-'Jaylen Warren':{p:'RB',ppg:12.5,gp:15},
-'Tyrod Taylor':{p:'QB',ppg:12.3,gp:6},
-'Jameis Winston':{p:'QB',ppg:12.3,gp:1},
-'Zay Flowers':{p:'WR',ppg:12.3,gp:16},
-'Terry McLaurin':{p:'WR',ppg:12.2,gp:16},
-'Brock Bowers':{p:'TE',ppg:12.2,gp:16},
-'Tetairoa McMillan':{p:'WR',ppg:12.1,gp:16},
-'Shedeur Sanders':{p:'QB',ppg:11.8,gp:10},
-'Tee Higgins':{p:'WR',ppg:11.8,gp:16},
-'Ladd McConkey':{p:'WR',ppg:11.8,gp:16},
-'Alec Pierce':{p:'WR',ppg:11.8,gp:15},
-'Rhamondre Stevenson':{p:'RB',ppg:11.6,gp:15},
-'Jameson Williams':{p:'WR',ppg:11.6,gp:16},
-'Tony Pollard':{p:'RB',ppg:11.5,gp:15},
-'DeVonta Smith':{p:'WR',ppg:11.5,gp:16},
-'Jordan Mason':{p:'RB',ppg:11.4,gp:15},
-'Davante Adams':{p:'WR',ppg:11.4,gp:16},
-'David Montgomery':{p:'RB',ppg:11.2,gp:15},
-'DK Metcalf':{p:'WR',ppg:11.2,gp:16},
-'Tua Tagovailoa':{p:'QB',ppg:11.0,gp:9},
-'Jadarian Price':{p:'RB',ppg:11.0,gp:15},
-'James Conner':{p:'RB',ppg:11.0,gp:15},
-'Kyle Monangai':{p:'RB',ppg:11.0,gp:15},
-'Rome Odunze':{p:'WR',ppg:10.9,gp:16},
-'Garrett Wilson':{p:'WR',ppg:10.8,gp:16},
-'Courtland Sutton':{p:'WR',ppg:10.7,gp:16},
-'Tyreek Hill':{p:'WR',ppg:10.7,gp:8},
-'Carnell Tate':{p:'WR',ppg:10.6,gp:16},
-'Marcus Mariota':{p:'QB',ppg:10.5,gp:1},
-'Trey Benson':{p:'RB',ppg:10.5,gp:15},
-'Chuba Hubbard':{p:'RB',ppg:10.5,gp:15},
-'Emeka Egbuka':{p:'WR',ppg:10.5,gp:16},
-'Jaylen Waddle':{p:'WR',ppg:10.5,gp:16},
-'Jonah Coleman':{p:'RB',ppg:10.4,gp:15},
-'Michael Wilson':{p:'WR',ppg:10.0,gp:16},
-'Brian Thomas Jr.':{p:'WR',ppg:10.0,gp:16},
-'Brady Cook':{p:'QB',ppg:9.9,gp:6},
-'Stefon Diggs':{p:'WR',ppg:9.8,gp:16},
-'Colston Loveland':{p:'TE',ppg:9.8,gp:16},
-'Kyle Pitts Sr.':{p:'TE',ppg:9.8,gp:16},
-'George Kittle':{p:'TE',ppg:9.8,gp:13},
-'Harold Fannin Jr.':{p:'TE',ppg:9.7,gp:16},
-'Quinn Ewers':{p:'QB',ppg:9.6,gp:9},
-'Spencer Rattler':{p:'QB',ppg:9.6,gp:1},
-'Matthew Golden':{p:'WR',ppg:9.4,gp:16},
-'Marvin Harrison Jr.':{p:'WR',ppg:9.4,gp:16},
-'Tucker Kraft':{p:'TE',ppg:9.4,gp:16},
-'Andy Dalton':{p:'QB',ppg:9.3,gp:1},
-'Blake Corum':{p:'RB',ppg:9.3,gp:15},
-'Mike Evans':{p:'WR',ppg:9.3,gp:16},
-'Quentin Johnston':{p:'WR',ppg:9.2,gp:16},
-'Tyrone Tracy Jr.':{p:'RB',ppg:9.1,gp:15},
-'Michael Pittman Jr':{p:'WR',ppg:9.1,gp:16},
-'Tyler Warren':{p:'TE',ppg:9.1,gp:16},
-'Easton Stick':{p:'QB',ppg:9.0,gp:1},
-'Jacory Croskey-Merritt':{p:'RB',ppg:9.0,gp:15},
-'Jordyn Tyson':{p:'WR',ppg:9.0,gp:16},
-'Zach Charbonnet':{p:'RB',ppg:8.9,gp:10},
-'Ricky Pearsall':{p:'WR',ppg:8.9,gp:16},
-'Jauan Jennings':{p:'WR',ppg:8.9,gp:16},
-'Kenyon Sadiq':{p:'TE',ppg:8.9,gp:16},
-'Travis Kelce':{p:'TE',ppg:8.9,gp:16},
-'Jayden Higgins':{p:'WR',ppg:8.8,gp:16},
-'Christian Watson':{p:'WR',ppg:8.8,gp:16},
-'Sam LaPorta':{p:'TE',ppg:8.8,gp:16},
-'Luther Burden III':{p:'WR',ppg:8.7,gp:16},
-'Tyler Allgeier':{p:'RB',ppg:8.6,gp:15},
-'Jordan Addison':{p:'WR',ppg:8.6,gp:16},
-'Jake Browning':{p:'QB',ppg:8.5,gp:2},
-'Elic Ayomanor':{p:'WR',ppg:8.5,gp:16},
-'Wan\'Dale Robinson':{p:'WR',ppg:8.5,gp:16},
-'DJ Moore':{p:'WR',ppg:8.5,gp:16},
-'Mike Washington Jr.':{p:'RB',ppg:8.4,gp:15},
-'Kayshon Boutte':{p:'WR',ppg:8.3,gp:16},
-'Khalil Shakir':{p:'WR',ppg:8.3,gp:16},
-'Romeo Doubs':{p:'WR',ppg:8.3,gp:16},
-'Makai Lemon':{p:'WR',ppg:8.3,gp:16},
-'Deebo Samuel Sr.':{p:'WR',ppg:8.3,gp:15},
-'Oronde Gadsden':{p:'TE',ppg:8.3,gp:16},
-'Kenneth Gainwell':{p:'RB',ppg:8.2,gp:15},
-'Chimere Dike':{p:'WR',ppg:8.2,gp:16},
-'Jakobi Meyers':{p:'WR',ppg:8.2,gp:16},
-'Dalton Kincaid':{p:'TE',ppg:8.2,gp:16},
-'Jerry Jeudy':{p:'WR',ppg:8.1,gp:16},
-'Rico Dowdle':{p:'RB',ppg:8.0,gp:15},
-'Tre Tucker':{p:'WR',ppg:8.0,gp:16},
-'Brenton Strange':{p:'TE',ppg:8.0,gp:16},
-'Juwan Johnson':{p:'TE',ppg:8.0,gp:16},
-'Dalton Schultz':{p:'TE',ppg:8.0,gp:16},
-'Jake Ferguson':{p:'TE',ppg:8.0,gp:16},
-'Troy Franklin':{p:'WR',ppg:7.8,gp:16},
-'Dallas Goedert':{p:'TE',ppg:7.7,gp:16},
-'Josh Downs':{p:'WR',ppg:7.6,gp:16},
-'Parker Washington':{p:'WR',ppg:7.6,gp:16},
-'Jalen Coker':{p:'WR',ppg:7.5,gp:16},
-'Jack Bech':{p:'WR',ppg:7.5,gp:16},
-'Isiah Pacheco':{p:'RB',ppg:7.3,gp:15},
-'Dylan Sampson':{p:'RB',ppg:7.3,gp:15},
-'Hunter Henry':{p:'TE',ppg:7.3,gp:16},
-'Emmett Johnson':{p:'RB',ppg:7.2,gp:15},
-'Xavier Worthy':{p:'WR',ppg:7.2,gp:16},
-'Mark Andrews':{p:'TE',ppg:7.2,gp:16},
-'Denzel Boston':{p:'WR',ppg:7.1,gp:16},
-'Chris Godwin Jr.':{p:'WR',ppg:7.1,gp:16},
-'Jayden Reed':{p:'WR',ppg:7.0,gp:16},
-'Cooper Kupp':{p:'WR',ppg:6.9,gp:16},
-'J.K. Dobbins':{p:'RB',ppg:6.8,gp:15},
-'Isaac TeSlaa':{p:'WR',ppg:6.8,gp:16},
-'Bhayshul Tuten':{p:'RB',ppg:6.7,gp:15},
-'Calvin Austin III':{p:'WR',ppg:6.7,gp:16},
-'AJ Barner':{p:'TE',ppg:6.6,gp:16},
-'Kimani Vidal':{p:'RB',ppg:6.5,gp:15},
-'Braelon Allen':{p:'RB',ppg:6.5,gp:15},
-'Pat Bryant':{p:'WR',ppg:6.5,gp:16},
-'Woody Marks':{p:'RB',ppg:6.4,gp:15},
-'KC Concepcion':{p:'WR',ppg:6.4,gp:16},
-'Isaiah Likely':{p:'TE',ppg:6.4,gp:16},
-'Kedon Slovis':{p:'QB',ppg:6.3,gp:2},
-'Aaron Jones Sr.':{p:'RB',ppg:6.2,gp:15},
-'Tyjae Spears':{p:'RB',ppg:6.1,gp:15},
-'Mason Taylor':{p:'TE',ppg:6.0,gp:16},
-'T.J. Hockenson':{p:'TE',ppg:6.0,gp:16},
-'Alvin Kamara':{p:'RB',ppg:5.9,gp:15},
-'Malik Washington':{p:'WR',ppg:5.9,gp:16},
-'David Njoku':{p:'TE',ppg:5.9,gp:16},
-'Theo Johnson':{p:'TE',ppg:5.9,gp:16},
-'Terrance Ferguson':{p:'TE',ppg:5.9,gp:16},
-'Omar Cooper Jr.':{p:'WR',ppg:5.8,gp:16},
-'Jalen Nailor':{p:'WR',ppg:5.8,gp:16},
-'Eli Stowers':{p:'TE',ppg:5.8,gp:16},
-'Gunnar Helm':{p:'TE',ppg:5.8,gp:16},
-'Kaytron Allen':{p:'RB',ppg:5.7,gp:15},
-'Cade Otton':{p:'TE',ppg:5.7,gp:16},
-'Jaylen Wright':{p:'RB',ppg:5.6,gp:15},
-'Nicholas Singleton':{p:'RB',ppg:5.6,gp:15},
-'Tank Bigsby':{p:'RB',ppg:5.6,gp:15},
-'Pat Freiermuth':{p:'TE',ppg:5.6,gp:16},
-'Keon Coleman':{p:'WR',ppg:5.4,gp:16},
-'Mitchell Trubisky':{p:'QB',ppg:5.3,gp:3},
-'Drew Lock':{p:'QB',ppg:5.2,gp:2},
-'MarShawn Lloyd':{p:'RB',ppg:5.2,gp:15},
-'Ryan Flournoy':{p:'WR',ppg:5.2,gp:16},
-'Zachariah Branch':{p:'WR',ppg:5.2,gp:16},
-'Rashid Shaheed':{p:'WR',ppg:5.2,gp:16},
-'Luke McCaffrey':{p:'WR',ppg:5.2,gp:16},
-'Tanner McKee':{p:'QB',ppg:5.1,gp:3},
-'Isaiah Bond':{p:'WR',ppg:5.1,gp:16},
-'Keenan Allen':{p:'WR',ppg:5.1,gp:16},
-'Colby Parkinson':{p:'TE',ppg:5.1,gp:16},
-'Aidan O\'Connell':{p:'QB',ppg:5.0,gp:2},
-'Brian Robinson Jr':{p:'RB',ppg:5.0,gp:15},
-'Darnell Mooney':{p:'WR',ppg:5.0,gp:16},
-'Keaton Mitchell':{p:'RB',ppg:4.9,gp:15},
-'Rachaad White':{p:'RB',ppg:4.9,gp:15},
-'DeMario Douglas':{p:'WR',ppg:4.9,gp:16},
-'Adonai Mitchell':{p:'WR',ppg:4.9,gp:16},
-'Chig Okonkwo':{p:'TE',ppg:4.8,gp:16},
-'Brandon Allen':{p:'QB',ppg:4.7,gp:2},
-'Chris Rodriguez Jr.':{p:'RB',ppg:4.7,gp:15},
-'Sean Tucker':{p:'RB',ppg:4.6,gp:15},
-'Marvin Mims Jr.':{p:'WR',ppg:4.6,gp:16},
-'Andrei Iosivas':{p:'WR',ppg:4.6,gp:16},
-'Demond Claiborne':{p:'RB',ppg:4.5,gp:15},
-'Mike Gesicki':{p:'TE',ppg:4.5,gp:16},
-'Ty Johnson':{p:'RB',ppg:4.4,gp:15},
-'Jonnu Smith':{p:'TE',ppg:4.4,gp:16},
-'Tyler Higbee':{p:'TE',ppg:4.4,gp:16},
-'Brashard Smith':{p:'RB',ppg:4.3,gp:15},
-'Tre\' Harris':{p:'WR',ppg:4.3,gp:16},
-'Greg Dulcich':{p:'TE',ppg:4.3,gp:16},
-'Dawson Knox':{p:'TE',ppg:4.3,gp:16},
-'Noah Gray':{p:'TE',ppg:4.3,gp:16},
-'Joe Milton III':{p:'QB',ppg:4.2,gp:3},
-'Bryce Lance':{p:'WR',ppg:4.2,gp:16},
-'Joshua Palmer':{p:'WR',ppg:4.2,gp:16},
-'Elijah Sarratt':{p:'WR',ppg:4.2,gp:16},
-'Ben Sinnott':{p:'TE',ppg:4.2,gp:16},
-'Ray Davis':{p:'RB',ppg:4.1,gp:15},
-'Darius Slayton':{p:'WR',ppg:4.1,gp:16},
-'Jaylin Noel':{p:'WR',ppg:4.1,gp:16},
-'Zach Ertz':{p:'TE',ppg:4.1,gp:16},
-'Kareem Hunt':{p:'RB',ppg:4.0,gp:15},
-'Rashod Bateman':{p:'WR',ppg:4.0,gp:16},
-'KaVontae Turpin':{p:'WR',ppg:4.0,gp:16},
-'Jalen Royals':{p:'WR',ppg:4.0,gp:16},
-'Evan Engram':{p:'TE',ppg:4.0,gp:16},
-'Tyson Bagent':{p:'QB',ppg:3.9,gp:3},
-'Calvin Ridley':{p:'WR',ppg:3.9,gp:16},
-'Cedric Tillman':{p:'WR',ppg:3.9,gp:16},
-'Travis Hunter':{p:'WR',ppg:3.8,gp:16},
-'Mack Hollins':{p:'WR',ppg:3.8,gp:16},
-'Malachi Fields':{p:'WR',ppg:3.8,gp:16},
-'Davis Mills':{p:'QB',ppg:3.7,gp:4},
-'Roman Wilson':{p:'WR',ppg:3.7,gp:16},
-'Devaughn Vele':{p:'WR',ppg:3.7,gp:16},
-'Michael Trigg':{p:'TE',ppg:3.7,gp:16},
-'Ja\'Tavion Sanders':{p:'TE',ppg:3.7,gp:16},
-'Nick Mullens':{p:'QB',ppg:3.6,gp:3},
-'Emanuel Wilson':{p:'RB',ppg:3.6,gp:15},
-'Devin Neal':{p:'RB',ppg:3.6,gp:15},
-'Jaydon Blue':{p:'RB',ppg:3.5,gp:15},
-'Justice Hill':{p:'RB',ppg:3.5,gp:15},
-'Kaelon Black':{p:'RB',ppg:3.5,gp:15},
-'Xavier Legette':{p:'WR',ppg:3.5,gp:16},
-'Kyle Allen':{p:'QB',ppg:3.4,gp:3},
-'Samaje Perine':{p:'RB',ppg:3.4,gp:15},
-'Ollie Gordon II':{p:'RB',ppg:3.3,gp:15},
-'Isaiah Davis':{p:'RB',ppg:3.3,gp:15},
-'Jaylin Lane':{p:'WR',ppg:3.3,gp:16},
-'J\'Mari Taylor':{p:'RB',ppg:3.2,gp:15},
-'Xavier Hutchinson':{p:'WR',ppg:3.2,gp:16},
-'Michael Mayer':{p:'TE',ppg:3.2,gp:16},
-'Max Klare':{p:'TE',ppg:3.2,gp:16},
-'Kevin Austin Jr':{p:'WR',ppg:3.1,gp:16},
-'Chris Bell':{p:'WR',ppg:3.1,gp:16},
-'Cole Kmet':{p:'TE',ppg:3.1,gp:16},
-'Teddy Bridgewater':{p:'QB',ppg:3.0,gp:3},
-'Raheim Sanders':{p:'RB',ppg:3.0,gp:15},
-'Tyrell Shavers':{p:'WR',ppg:3.0,gp:16},
-'Darnell Washington':{p:'TE',ppg:3.0,gp:10},
-'Joshua Dobbs':{p:'QB',ppg:2.9,gp:3},
-'Kaleb Johnson':{p:'RB',ppg:2.9,gp:15},
-'Tahj Brooks':{p:'RB',ppg:2.9,gp:15},
-'Jonathon Brooks':{p:'RB',ppg:2.9,gp:15},
-'Kyle Williams':{p:'WR',ppg:2.9,gp:16},
-'Marquise Brown':{p:'WR',ppg:2.9,gp:16},
-'Jake Tonges':{p:'TE',ppg:2.9,gp:16},
-'Justin Joly':{p:'TE',ppg:2.8,gp:16},
-'Cooper Rush':{p:'QB',ppg:2.7,gp:4},
-'Kendre Miller':{p:'RB',ppg:2.7,gp:15},
-'LeQuint Allen Jr.':{p:'RB',ppg:2.7,gp:15},
-'Chris Brazzell II':{p:'WR',ppg:2.7,gp:16},
-'John Metchie III':{p:'WR',ppg:2.7,gp:16},
-'DeAndre Hopkins':{p:'WR',ppg:2.7,gp:16},
-'Elijah Arroyo':{p:'TE',ppg:2.7,gp:16},
-'Greg Dortch':{p:'WR',ppg:2.6,gp:16},
-'David Sills V':{p:'WR',ppg:2.6,gp:16},
-'Germie Bernard':{p:'WR',ppg:2.6,gp:16},
-'Antonio Williams':{p:'WR',ppg:2.5,gp:16},
-'Demarcus Robinson':{p:'WR',ppg:2.5,gp:16},
-'Dontayvion Wicks':{p:'WR',ppg:2.4,gp:16},
-'Darren Waller':{p:'TE',ppg:2.4,gp:16},
-'Sam Roush':{p:'TE',ppg:2.4,gp:16},
-'Malik Davis':{p:'RB',ppg:2.3,gp:15},
-'Jaleel McLaughlin':{p:'RB',ppg:2.3,gp:15},
-'Tez Johnson':{p:'WR',ppg:2.3,gp:16},
-'Drew Sample':{p:'TE',ppg:2.3,gp:16},
-'Dont\'e Thornton Jr.':{p:'WR',ppg:2.2,gp:16},
-'Josh Oliver':{p:'TE',ppg:2.2,gp:16},
-'Trevor Etienne':{p:'RB',ppg:2.1,gp:15},
-'Adam Randall':{p:'RB',ppg:2.0,gp:15},
-'Jeremy McNichols':{p:'RB',ppg:2.0,gp:15},
-'Deion Burks':{p:'WR',ppg:2.0,gp:16},
-'Van Jefferson':{p:'WR',ppg:2.0,gp:16},
-'Olamide Zaccheaus':{p:'WR',ppg:2.0,gp:16},
-'Christian Kirk':{p:'WR',ppg:2.0,gp:16},
-'Jeff Caldwell':{p:'WR',ppg:2.0,gp:16},
-'Jawhar Jordan':{p:'RB',ppg:1.9,gp:15},
-'Tyquan Thornton':{p:'WR',ppg:1.9,gp:16},
-'Tory Horton':{p:'WR',ppg:1.9,gp:16},
-'Devontez Walker':{p:'WR',ppg:1.9,gp:16},
-'Austin Hooper':{p:'TE',ppg:1.9,gp:16},
-'Will Shipley':{p:'RB',ppg:1.8,gp:15},
-'Robert Henry Jr.':{p:'RB',ppg:1.8,gp:15},
-'Tyler Badie':{p:'RB',ppg:1.8,gp:15},
-'Mitchell Tinsley':{p:'WR',ppg:1.8,gp:16},
-'Jamari Thrash':{p:'WR',ppg:1.8,gp:16},
-'John Michael Gyllenborg':{p:'TE',ppg:1.8,gp:16},
-'Hunter Luepke':{p:'RB',ppg:1.7,gp:15},
-'Kyle Juszczyk':{p:'RB',ppg:1.7,gp:15},
-'Roman Hemby':{p:'RB',ppg:1.7,gp:15},
-'Darius Cooper':{p:'WR',ppg:1.7,gp:16},
-'Cade Stover':{p:'TE',ppg:1.7,gp:16},
-'Dylan Laube':{p:'RB',ppg:1.6,gp:15},
-'Savion Williams':{p:'WR',ppg:1.6,gp:16},
-'Chris Moore':{p:'WR',ppg:1.6,gp:16},
-'Mitchell Evans':{p:'TE',ppg:1.6,gp:16},
-'John Bates':{p:'TE',ppg:1.6,gp:16},
-'Noah Fant':{p:'TE',ppg:1.6,gp:16},
-'Audric Estimé':{p:'RB',ppg:1.5,gp:15},
-'Konata Mumpfield':{p:'WR',ppg:1.5,gp:16},
-'Jacob Cowing':{p:'WR',ppg:1.5,gp:16},
-'Tommy Tremble':{p:'TE',ppg:1.5,gp:16},
-'Jackson Hawes':{p:'TE',ppg:1.5,gp:16},
-'Sione Vaki':{p:'RB',ppg:1.4,gp:15},
-'Emari Demercado':{p:'RB',ppg:1.4,gp:15},
-'Ted Hurst':{p:'WR',ppg:1.4,gp:16},
-'Brandin Cooks':{p:'WR',ppg:1.4,gp:16},
-'Jimmy Horn Jr.':{p:'WR',ppg:1.4,gp:16},
-'Elijah Higgins':{p:'TE',ppg:1.4,gp:16},
-'Luke Schoonmaker':{p:'TE',ppg:1.4,gp:16},
-'Will Dissly':{p:'TE',ppg:1.4,gp:16},
-'Jack Endries':{p:'TE',ppg:1.4,gp:16},
-'Skyler Bell':{p:'WR',ppg:1.3,gp:16},
-'Luke Musgrave':{p:'TE',ppg:1.3,gp:16},
-'Jeremy Ruckert':{p:'TE',ppg:1.3,gp:16},
-'Kendrick Bourne':{p:'WR',ppg:1.2,gp:16},
-'Jordan Watkins':{p:'WR',ppg:1.2,gp:16},
-'Brock Wright':{p:'TE',ppg:1.2,gp:16},
-'Adam Trautman':{p:'TE',ppg:1.2,gp:16},
-'Oscar Delp':{p:'TE',ppg:1.2,gp:16},
-'Desmond Reid':{p:'RB',ppg:1.1,gp:15},
-'Chris Brooks':{p:'RB',ppg:1.1,gp:15},
-'George Holani':{p:'RB',ppg:1.1,gp:15},
-'Jalen McMillan':{p:'WR',ppg:1.1,gp:16},
-'Ja\'Kobi Lane':{p:'WR',ppg:1.1,gp:16},
-'Nick Westbrook-Ikhine':{p:'WR',ppg:1.1,gp:16},
-'Hunter Long':{p:'TE',ppg:1.1,gp:16},
-'Brenen Thompson':{p:'WR',ppg:1.0,gp:16},
-'Nate Adkins':{p:'TE',ppg:1.0,gp:16},
-'Ray-Ray McCloud III':{p:'WR',ppg:0.9,gp:16},
-'Xavier Smith':{p:'WR',ppg:0.9,gp:16},
-'Payne Durham':{p:'TE',ppg:0.9,gp:16},
-'Jerome Ford':{p:'RB',ppg:0.8,gp:15},
-'Le\'Veon Moss':{p:'RB',ppg:0.8,gp:15},
-'JuJu Smith-Schuster':{p:'WR',ppg:0.8,gp:16},
-'KEvin Coleman Jr.':{p:'WR',ppg:0.8,gp:16},
-'Scotty Miller':{p:'WR',ppg:0.8,gp:16},
-'Jordan Whittington':{p:'WR',ppg:0.8,gp:16},
-'Isaiah Williams':{p:'WR',ppg:0.8,gp:16},
-'Julian Hill':{p:'TE',ppg:0.8,gp:16},
-'Daniel Bellinger':{p:'TE',ppg:0.8,gp:16},
-'Jared Wiley':{p:'TE',ppg:0.8,gp:16},
-'Isaac Guerendo':{p:'RB',ppg:0.7,gp:15},
-'Jam Miller':{p:'RB',ppg:0.7,gp:15},
-'Jalin Hyatt':{p:'WR',ppg:0.7,gp:16},
-'Tutu Atwell':{p:'WR',ppg:0.7,gp:16},
-'Tyler Johnson':{p:'WR',ppg:0.7,gp:16},
-'Xavier Weaver':{p:'WR',ppg:0.7,gp:16},
-'Dee Eskridge':{p:'WR',ppg:0.7,gp:16},
-'Noah Brown':{p:'WR',ppg:0.7,gp:13},
-'Grant Calcaterra':{p:'TE',ppg:0.7,gp:16},
-'Davis Allen':{p:'TE',ppg:0.7,gp:16},
-'DJ Giddens':{p:'RB',ppg:0.6,gp:15},
-'Zavier Scott':{p:'RB',ppg:0.6,gp:15},
-'Jaret Patterson':{p:'RB',ppg:0.6,gp:15},
-'Julius Chestnut':{p:'RB',ppg:0.6,gp:15},
-'C.J. Ham':{p:'RB',ppg:0.6,gp:15},
-'Adam Prentice':{p:'RB',ppg:0.6,gp:15},
-'Noah Whittington':{p:'RB',ppg:0.6,gp:15},
-'Kalif Raymond':{p:'WR',ppg:0.6,gp:16},
-'Jahan Dotson':{p:'WR',ppg:0.6,gp:16},
-'Charlie Kolar':{p:'TE',ppg:0.6,gp:16},
-'Jarquez Hunter':{p:'RB',ppg:0.5,gp:15},
-'Devin Singletary':{p:'RB',ppg:0.5,gp:15},
-'Jaydn Ott':{p:'RB',ppg:0.5,gp:15},
-'Tyler Lockett':{p:'WR',ppg:0.5,gp:16},
-'Brevyn Spann-Ford':{p:'TE',ppg:0.5,gp:16},
-'Joe Royer':{p:'TE',ppg:0.5,gp:16},
-'Charlie Woerner':{p:'TE',ppg:0.5,gp:16},
-'Luke Farrell':{p:'TE',ppg:0.5,gp:16},
-'Tanner Hudson':{p:'TE',ppg:0.5,gp:16},
-'Nathan Carter':{p:'RB',ppg:0.4,gp:15},
-'Roschon Johnson':{p:'RB',ppg:0.4,gp:15},
-'Terrell Jennings':{p:'RB',ppg:0.4,gp:15},
-'Clyde Edwards-Helaire':{p:'RB',ppg:0.4,gp:15},
-'Tyler Goodson':{p:'RB',ppg:0.4,gp:15},
-'Zay Jones':{p:'WR',ppg:0.4,gp:16},
-'Jahdae Walker':{p:'WR',ppg:0.4,gp:16},
-'Tim Patrick':{p:'WR',ppg:0.4,gp:16},
-'Curtis Samuel':{p:'WR',ppg:0.4,gp:16},
-'Dante Pettis':{p:'WR',ppg:0.4,gp:16},
-'Mason Tipton':{p:'WR',ppg:0.4,gp:16},
-'Trent Sherfield Sr.':{p:'WR',ppg:0.4,gp:16},
-'James Proche II':{p:'WR',ppg:0.4,gp:16},
-'Dyami Brown':{p:'WR',ppg:0.4,gp:16},
-'Eli Raridon':{p:'TE',ppg:0.4,gp:16},
-'John FitzPatrick':{p:'TE',ppg:0.4,gp:16},
-'Zaire Mitchell-Paden':{p:'TE',ppg:0.4,gp:16},
-'Eric Saubert':{p:'TE',ppg:0.4,gp:16},
-'RJ Maryland':{p:'TE',ppg:0.4,gp:16},
-'Connor Heyward':{p:'TE',ppg:0.4,gp:16},
-'Alec Ingold':{p:'RB',ppg:0.3,gp:15},
-'Patrick Ricard':{p:'RB',ppg:0.3,gp:15},
-'Kentrel Bullock':{p:'RB',ppg:0.3,gp:15},
-'Craig Reynolds':{p:'RB',ppg:0.3,gp:15},
-'Ashton Dulin':{p:'WR',ppg:0.3,gp:16},
-'Tylan Wallace':{p:'WR',ppg:0.3,gp:16},
-'Gabe Davis':{p:'WR',ppg:0.3,gp:16},
-'Jalen Tolbert':{p:'WR',ppg:0.3,gp:16},
-'Keandre Lambert-Smith':{p:'WR',ppg:0.3,gp:16},
-'Brycen Tremayne':{p:'WR',ppg:0.3,gp:16},
-'Cedrick Wilson Jr.':{p:'WR',ppg:0.3,gp:16},
-'Tip Reiman':{p:'TE',ppg:0.3,gp:16},
-'Tucker Fisk':{p:'TE',ppg:0.3,gp:16},
-'Tanner Conner':{p:'TE',ppg:0.3,gp:16},
-'Foster Moreau':{p:'TE',ppg:0.3,gp:16},
-'Lucas Krull':{p:'TE',ppg:0.3,gp:16},
-'Ben Yurosek':{p:'TE',ppg:0.3,gp:16},
-'Devin Culp':{p:'TE',ppg:0.3,gp:16},
-'Ian Thomas':{p:'TE',ppg:0.3,gp:16},
-'Nate Boerkircher':{p:'TE',ppg:0.3,gp:16},
-'James Mitchell':{p:'TE',ppg:0.3,gp:16},
-'Seth McGowan':{p:'RB',ppg:0.2,gp:15},
-'Reggie Gilliam':{p:'RB',ppg:0.2,gp:15},
-'Mason Kinsey':{p:'WR',ppg:0.2,gp:16},
-'Xavier Restrepo':{p:'WR',ppg:0.2,gp:16},
-'Anthony Gould':{p:'WR',ppg:0.2,gp:16},
-'Mo Alie-Cox':{p:'TE',ppg:0.2,gp:16},
-'David Martin-Robinson':{p:'TE',ppg:0.2,gp:16},
-'Durham Smythe':{p:'TE',ppg:0.2,gp:16},
-'Drew Ogletree':{p:'TE',ppg:0.2,gp:16},
-'Jack Westover':{p:'TE',ppg:0.2,gp:16},
-'Dallen Bentley':{p:'TE',ppg:0.2,gp:16},
-'Quintin Morris':{p:'TE',ppg:0.2,gp:16},
-'Blake Whiteheart':{p:'TE',ppg:0.2,gp:16},
-'Johnny Mundt':{p:'TE',ppg:0.2,gp:16},
-'Kylen Granson':{p:'TE',ppg:0.2,gp:16},
-'Gardner Minshew':{p:'QB',ppg:0.1,gp:2},
-'Derius Davis':{p:'WR',ppg:0.1,gp:16},
-'Tanner Koziol':{p:'TE',ppg:0.1,gp:16},
-'Dae\'quan Wright':{p:'TE',ppg:0.1,gp:16}
+'A.J. Brown':{ppg:13.44},
+'AJ Barner':{ppg:5.63},
+'AJ Dillon':{ppg:0.73},
+'Aaron Jones':{ppg:8.8},
+'Aaron Rodgers':{ppg:14.88},
+'Adam Randall':{ppg:2.05},
+'Adam Trautman':{ppg:1.62},
+'Adonai Mitchell':{ppg:4.53},
+'Adrian Martinez':{ppg:9.6},
+'Alec Ingold':{ppg:0.48},
+'Alec Pierce':{ppg:10.18},
+'Alvin Kamara':{ppg:5.16},
+'Amon-Ra St. Brown':{ppg:13.68},
+'Andrei Iosivas':{ppg:4.03},
+'Andy Dalton':{ppg:8.94},
+'Anthony Gould':{ppg:1.13},
+'Anthony Richardson':{ppg:10.8},
+'Arian Smith':{ppg:1.42},
+'Ashton Dulin':{ppg:1.51},
+'Ashton Jeanty':{ppg:16.02},
+'Athan Kaliakmanis':{ppg:8.8},
+'Audric Estime':{ppg:0.11},
+'Austin Hooper':{ppg:1.11},
+'Bailey Zappe':{ppg:10.5},
+'Baker Mayfield':{ppg:16.86},
+'Bam Knight':{ppg:0.08},
+'Barion Brown':{ppg:0.25},
+'Bauer Sharp':{ppg:0.09},
+'Ben Sims':{ppg:0.72},
+'Ben Sinnott':{ppg:1.23},
+'Ben Skowronek':{ppg:0.72},
+'Ben Yurosek':{ppg:0.22},
+'Bhayshul Tuten':{ppg:10.25},
+'Bijan Robinson':{ppg:19.19},
+'Blake Corum':{ppg:7.73},
+'Bo Nix':{ppg:18.15},
+'Brady Cook':{ppg:5.89},
+'Braelon Allen':{ppg:5.08},
+'Brandon Aiyuk':{ppg:4.43},
+'Brashard Smith':{ppg:1.31},
+'Braxton Berrios':{ppg:0.05},
+'Breece Hall':{ppg:13.65},
+'Brenden Bates':{ppg:0.24},
+'Brenen Thompson':{ppg:1.08},
+'Brenton Strange':{ppg:6.28},
+'Brevyn Spann-Ford':{ppg:0.46},
+'Brian Robinson':{ppg:5.43},
+'Brian Thomas Jr.':{ppg:9.23},
+'Britain Covey':{ppg:0.66},
+'Brock Bowers':{ppg:12.62},
+'Brock Purdy':{ppg:18.22},
+'Brock Wright':{ppg:1.04},
+'Bryce Lance':{ppg:0.23},
+'Bryce Young':{ppg:14.48},
+'Bucky Irving':{ppg:12.62},
+'C.J. Stroud':{ppg:16.41},
+'CJ Daniels':{ppg:0.39},
+'Cade Otton':{ppg:5.04},
+'Cade Stover':{ppg:0.76},
+'Caleb Douglas':{ppg:4.02},
+'Caleb Williams':{ppg:18.66},
+'Calvin Austin III':{ppg:0.81},
+'Calvin Ridley':{ppg:5.66},
+'Cam Skattebo':{ppg:12.27},
+'Cam Ward':{ppg:14.42},
+'Carnell Tate':{ppg:9.2},
+'Carson Beck':{ppg:9.77},
+'Cedric Tillman':{ppg:1.74},
+'CeeDee Lamb':{ppg:13.48},
+'Charlie Kolar':{ppg:0.57},
+'Charlie Woerner':{ppg:0.33},
+'Chase Brown':{ppg:14.05},
+'Chig Okonkwo':{ppg:5.65},
+'Chimere Dike':{ppg:1.37},
+'Chris Bell':{ppg:3.65},
+'Chris Brooks':{ppg:3.11},
+'Chris Godwin':{ppg:8.05},
+'Chris Olave':{ppg:11.2},
+'Chris Rodriguez Jr.':{ppg:6.85},
+'Christian Kirk':{ppg:3.78},
+'Christian McCaffrey':{ppg:18.52},
+'Christian Watson':{ppg:9.23},
+'Chuba Hubbard':{ppg:11.2},
+'Colbie Young':{ppg:0.78},
+'Colby Parkinson':{ppg:3.54},
+'Cole Kmet':{ppg:2.97},
+'Colston Loveland':{ppg:9.02},
+'Cooper Kupp':{ppg:4.33},
+'Courtland Sutton':{ppg:9.27},
+'Curtis Samuel':{ppg:0.71},
+'Cyrus Allen':{ppg:0.4},
+'D\'Andre Swift':{ppg:11.87},
+'DJ Giddens':{ppg:2.38},
+'DJ Moore':{ppg:10.71},
+'DK Metcalf':{ppg:9.74},
+'Dak Prescott':{ppg:18.35},
+'Dallas Goedert':{ppg:6.94},
+'Dalton Kincaid':{ppg:6.67},
+'Dalton Schultz':{ppg:5.71},
+'Daniel Bellinger':{ppg:1.53},
+'Daniel Jones':{ppg:16.72},
+'Darius Slayton':{ppg:3.14},
+'Darnell Mooney':{ppg:4.55},
+'Darnell Washington':{ppg:2.58},
+'Davante Adams':{ppg:10.32},
+'David Montgomery':{ppg:11.86},
+'David Njoku':{ppg:4.54},
+'Davis Allen':{ppg:0.3},
+'Davis Mills':{ppg:8.92},
+'Dawson Knox':{ppg:2.78},
+'De\'Von Achane':{ppg:14.76},
+'DeMario Douglas':{ppg:2.54},
+'DeVonta Smith':{ppg:11.61},
+'DeeJay Dallas':{ppg:0.45},
+'Deebo Samuel':{ppg:4.37},
+'Deion Burks':{ppg:1.11},
+'Demarcus Robinson':{ppg:0.16},
+'Denzel Boston':{ppg:6.3},
+'Derius Davis':{ppg:0.16},
+'Derrick Henry':{ppg:15.44},
+'Deshaun Watson':{ppg:13.89},
+'Devaughn Vele':{ppg:3.68},
+'Devin Culp':{ppg:0.31},
+'Devin Neal':{ppg:0.52},
+'Devin Singletary':{ppg:1.55},
+'Devontez Walker':{ppg:3.0},
+'Dont\'e Thornton Jr.':{ppg:1.61},
+'Dontayvion Wicks':{ppg:3.15},
+'Drake London':{ppg:12.5},
+'Drake Maye':{ppg:20.75},
+'Drew Lock':{ppg:6.96},
+'Drew Sample':{ppg:1.58},
+'Durham Smythe':{ppg:1.17},
+'Dyami Brown':{ppg:4.09},
+'Dylan Laube':{ppg:0.88},
+'Dylan Sampson':{ppg:5.76},
+'Eli Raridon':{ppg:1.16},
+'Eli Stowers':{ppg:2.6},
+'Elic Ayomanor':{ppg:1.63},
+'Elijah Arroyo':{ppg:2.47},
+'Elijah Higgins':{ppg:1.2},
+'Elijah Sarratt':{ppg:1.14},
+'Emanuel Wilson':{ppg:2.02},
+'Emari Demercado':{ppg:0.88},
+'Emeka Egbuka':{ppg:10.97},
+'Emmanuel Henderson Jr.':{ppg:0.23},
+'Eric Saubert':{ppg:0.42},
+'Erick All Jr.':{ppg:1.57},
+'Evan Engram':{ppg:4.13},
+'Fernando Mendoza':{ppg:14.34},
+'Foster Moreau':{ppg:0.44},
+'Gardner Minshew II':{ppg:15.4},
+'Garrett Wilson':{ppg:10.12},
+'Gavin Bartholomew':{ppg:1.06},
+'Geno Smith':{ppg:13.17},
+'George Holani':{ppg:1.64},
+'George Kittle':{ppg:8.88},
+'George Pickens':{ppg:12.07},
+'Germie Bernard':{ppg:4.96},
+'Grant Calcaterra':{ppg:0.25},
+'Greg Dortch':{ppg:0.56},
+'Greg Dulcich':{ppg:4.95},
+'Gunnar Helm':{ppg:5.2},
+'Harold Fannin Jr.':{ppg:8.14},
+'Hollywood Brown':{ppg:1.54},
+'Hunter Henry':{ppg:6.05},
+'Hunter Long':{ppg:0.07},
+'Hunter Luepke':{ppg:1.17},
+'Isaac Guerendo':{ppg:1.09},
+'Isaac TeSlaa':{ppg:4.3},
+'Isaiah Bond':{ppg:0.92},
+'Isaiah Davis':{ppg:1.65},
+'Isaiah Hodgins':{ppg:0.19},
+'Isaiah Likely':{ppg:7.39},
+'Isaiah Williams':{ppg:0.24},
+'Isiah Pacheco':{ppg:6.27},
+'J.J. McCarthy':{ppg:8.76},
+'J.K. Dobbins':{ppg:9.74},
+'JJ Galbreath':{ppg:0.37},
+'Ja\'Kobi Lane':{ppg:1.95},
+'Ja\'Lynn Polk':{ppg:0.78},
+'Ja\'Marr Chase':{ppg:16.8},
+'Ja\'Tavion Sanders':{ppg:2.9},
+'Jack Bech':{ppg:3.7},
+'Jack Endries':{ppg:0.28},
+'Jack Stoll':{ppg:0.58},
+'Jackson Hawes':{ppg:0.64},
+'Jacob Cowing':{ppg:0.19},
+'Jacoby Brissett':{ppg:14.28},
+'Jacory Croskey-Merritt':{ppg:7.7},
+'Jadarian Price':{ppg:11.05},
+'Jahan Dotson':{ppg:4.06},
+'Jahdae Walker':{ppg:1.98},
+'Jahmyr Gibbs':{ppg:19.57},
+'Jake Bobo':{ppg:0.19},
+'Jake Browning':{ppg:7.36},
+'Jake Ferguson':{ppg:6.3},
+'Jake Tonges':{ppg:2.15},
+'Jakobi Meyers':{ppg:7.44},
+'Jaleel McLaughlin':{ppg:0.38},
+'Jalen Coker':{ppg:6.67},
+'Jalen Hurts':{ppg:19.44},
+'Jalen McMillan':{ppg:6.17},
+'Jalen Milroe':{ppg:11.2},
+'Jalen Nailor':{ppg:6.24},
+'Jalen Royals':{ppg:1.53},
+'Jalen Tolbert':{ppg:3.51},
+'Jalin Hyatt':{ppg:0.25},
+'Jam Miller':{ppg:0.3},
+'Jameis Winston':{ppg:7.56},
+'James Conner':{ppg:1.27},
+'James Cook':{ppg:15.71},
+'Jameson Williams':{ppg:10.77},
+'Jared Goff':{ppg:17.15},
+'Jared Wiley':{ppg:0.31},
+'Jaret Patterson':{ppg:0.55},
+'Jarquez Hunter':{ppg:0.65},
+'Jarrett Stidham':{ppg:7.58},
+'Jauan Jennings':{ppg:5.79},
+'Javonte Williams':{ppg:13.16},
+'Jawhar Jordan':{ppg:0.65},
+'Jaxon Smith-Njigba':{ppg:14.23},
+'Jaxson Dart':{ppg:17.66},
+'Jayden Daniels':{ppg:19.53},
+'Jayden Higgins':{ppg:7.68},
+'Jayden Reed':{ppg:7.64},
+'Jaydon Blue':{ppg:3.27},
+'Jaylen Waddle':{ppg:10.78},
+'Jaylen Warren':{ppg:10.98},
+'Jaylen Wright':{ppg:2.85},
+'Jaylin Lane':{ppg:1.16},
+'Jaylin Noel':{ppg:3.59},
+'Jeremiyah Love':{ppg:12.99},
+'Jeremy McNichols':{ppg:0.15},
+'Jeremy Ruckert':{ppg:0.59},
+'Jerome Ford':{ppg:1.75},
+'Jerry Jeudy':{ppg:6.16},
+'Jimmy Horn Jr.':{ppg:0.83},
+'Joe Burrow':{ppg:20.05},
+'Joe Flacco':{ppg:11.18},
+'Joe Milton III':{ppg:8.63},
+'Joe Royer':{ppg:0.58},
+'John Bates':{ppg:0.38},
+'John Metchie III':{ppg:0.34},
+'Johnny Mundt':{ppg:0.1},
+'Johnny Wilson':{ppg:0.56},
+'Jonah Coleman':{ppg:2.21},
+'Jonathan Mingo':{ppg:0.3},
+'Jonathan Taylor':{ppg:16.98},
+'Jonathon Brooks':{ppg:7.34},
+'Jordan Addison':{ppg:7.99},
+'Jordan James':{ppg:3.32},
+'Jordan Love':{ppg:16.65},
+'Jordan Mason':{ppg:7.84},
+'Jordan Watkins':{ppg:0.08},
+'Jordan Whittington':{ppg:1.02},
+'Jordyn Tyson':{ppg:8.37},
+'Josh Allen':{ppg:22.62},
+'Josh Downs':{ppg:7.4},
+'Josh Jacobs':{ppg:14.27},
+'Josh Oliver':{ppg:1.66},
+'Josh Whyle':{ppg:0.33},
+'Joshua Palmer':{ppg:2.05},
+'JuJu Smith-Schuster':{ppg:0.05},
+'Julian Hill':{ppg:0.63},
+'Justice Hill':{ppg:4.2},
+'Justin Fields':{ppg:11.61},
+'Justin Herbert':{ppg:18.36},
+'Justin Jefferson':{ppg:12.87},
+'Justin Joly':{ppg:0.69},
+'Justin Watson':{ppg:0.62},
+'Juwan Johnson':{ppg:6.12},
+'KC Concepcion':{ppg:7.08},
+'KaVontae Turpin':{ppg:2.92},
+'Kaden Wetjen':{ppg:0.86},
+'Kaleb Johnson':{ppg:1.12},
+'Kalel Mullings':{ppg:0.82},
+'Kalif Raymond':{ppg:1.31},
+'Kayshon Boutte':{ppg:4.06},
+'Kaytron Allen':{ppg:1.03},
+'Keandre Lambert-Smith':{ppg:1.04},
+'Keaton Mitchell':{ppg:4.12},
+'Keenan Allen':{ppg:2.32},
+'Kendre Miller':{ppg:1.58},
+'Kendrick Bourne':{ppg:3.19},
+'Kendrick Law':{ppg:0.19},
+'Kenneth Gainwell':{ppg:7.81},
+'Kenneth Walker III':{ppg:13.86},
+'Kenny Pickett':{ppg:7.46},
+'Kenyon Sadiq':{ppg:5.92},
+'Keon Coleman':{ppg:3.27},
+'Khalil Shakir':{ppg:7.08},
+'Kimani Vidal':{ppg:2.84},
+'Kirk Cousins':{ppg:12.59},
+'Konata Mumpfield':{ppg:2.01},
+'Kyle Allen':{ppg:9.17},
+'Kyle Juszczyk':{ppg:1.3},
+'Kyle Monangai':{ppg:8.96},
+'Kyle Pitts':{ppg:8.64},
+'Kyle Williams':{ppg:1.35},
+'Kylen Granson':{ppg:0.1},
+'Kyler Murray':{ppg:18.08},
+'Kyren Williams':{ppg:13.7},
+'Ladd McConkey':{ppg:10.96},
+'Lamar Jackson':{ppg:20.12},
+'Laquon Treadwell':{ppg:0.44},
+'LeQuint Allen Jr.':{ppg:2.4},
+'Lil\'Jordan Humphrey':{ppg:0.14},
+'Luke Farrell':{ppg:0.45},
+'Luke McCaffrey':{ppg:2.02},
+'Luke Musgrave':{ppg:1.58},
+'Luke Schoonmaker':{ppg:0.99},
+'Luther Burden III':{ppg:10.53},
+'Mac Jones':{ppg:11.33},
+'Mack Hollins':{ppg:1.36},
+'Makai Lemon':{ppg:7.71},
+'Malik Benson':{ppg:0.59},
+'Malik Davis':{ppg:2.86},
+'Malik Nabers':{ppg:12.08},
+'Malik Washington':{ppg:4.93},
+'Malik Willis':{ppg:15.94},
+'MarShawn Lloyd':{ppg:3.49},
+'Marcus Mariota':{ppg:6.99},
+'Mark Andrews':{ppg:7.73},
+'Marlin Klein':{ppg:1.05},
+'Marvin Harrison Jr.':{ppg:8.8},
+'Marvin Mims Jr.':{ppg:2.68},
+'Mason Rudolph':{ppg:9.04},
+'Mason Taylor':{ppg:2.8},
+'Mason Tipton':{ppg:0.38},
+'Matt Hibner':{ppg:0.73},
+'Matthew Golden':{ppg:8.03},
+'Matthew Stafford':{ppg:17.75},
+'Max Klare':{ppg:1.76},
+'Michael Mayer':{ppg:2.38},
+'Michael Penix Jr.':{ppg:13.16},
+'Michael Pittman Jr.':{ppg:9.47},
+'Michael Wilson':{ppg:8.3},
+'Mike Evans':{ppg:10.34},
+'Mike Gesicki':{ppg:4.49},
+'Mike Washington Jr.':{ppg:3.39},
+'Mitch Tinsley':{ppg:1.15},
+'Mitchell Evans':{ppg:1.8},
+'Mitchell Trubisky':{ppg:6.72},
+'Mo Alie-Cox':{ppg:1.02},
+'Myles Price':{ppg:0.28},
+'Najee Harris':{ppg:4.58},
+'Nate Adkins':{ppg:0.35},
+'Nate Boerkircher':{ppg:0.81},
+'Nick Mullens':{ppg:8.26},
+'Nick Westbrook-Ikhine':{ppg:3.57},
+'Nico Collins':{ppg:12.94},
+'Noah Fant':{ppg:2.4},
+'Noah Gray':{ppg:3.47},
+'Odell Beckham Jr':{ppg:0.05},
+'Olamide Zaccheaus':{ppg:3.39},
+'Ollie Gordon II':{ppg:1.24},
+'Omar Cooper Jr.':{ppg:4.63},
+'Omarion Hampton':{ppg:14.6},
+'Oronde Gadsden':{ppg:5.57},
+'Parker Washington':{ppg:8.74},
+'Parris Campbell':{ppg:0.44},
+'Pat Bryant':{ppg:3.87},
+'Pat Freiermuth':{ppg:5.31},
+'Patrick Mahomes':{ppg:17.7},
+'Patrick Ricard':{ppg:0.31},
+'Payne Durham':{ppg:0.68},
+'Phil Mafah':{ppg:0.15},
+'Pierre Strong Jr':{ppg:0.49},
+'Puka Nacua':{ppg:15.12},
+'Quentin Johnston':{ppg:8.61},
+'Quinn Ewers':{ppg:7.14},
+'Quinshon Judkins':{ppg:13.23},
+'Quintin Morris':{ppg:0.21},
+'RJ Harvey':{ppg:8.14},
+'Rachaad White':{ppg:9.18},
+'Raheim Sanders':{ppg:1.25},
+'Rashee Rice':{ppg:12.84},
+'Rasheen Ali':{ppg:0.72},
+'Rashid Shaheed':{ppg:6.25},
+'Rashod Bateman':{ppg:5.61},
+'Ray Davis':{ppg:2.94},
+'Reggie Virgil':{ppg:0.3},
+'Rhamondre Stevenson':{ppg:10.37},
+'Ricky Pearsall':{ppg:5.57},
+'Rico Dowdle':{ppg:9.55},
+'Riley Leonard':{ppg:10.42},
+'Roman Wilson':{ppg:0.95},
+'Rome Odunze':{ppg:9.82},
+'Romeo Doubs':{ppg:7.48},
+'Roschon Johnson':{ppg:0.31},
+'Ryan Flournoy':{ppg:4.87},
+'Sam Darnold':{ppg:14.58},
+'Sam Howell':{ppg:13.2},
+'Sam LaPorta':{ppg:7.79},
+'Samaje Perine':{ppg:3.65},
+'Saquon Barkley':{ppg:15.61},
+'Savion Williams':{ppg:0.54},
+'Sean McKeon':{ppg:0.16},
+'Sean Tucker':{ppg:1.21},
+'Seth McGowan':{ppg:0.49},
+'Seydou Traore':{ppg:0.62},
+'Shedeur Sanders':{ppg:11.12},
+'Sione Vaki':{ppg:1.04},
+'Skyy Moore':{ppg:0.72},
+'Spencer Rattler':{ppg:8.14},
+'Stefon Diggs':{ppg:5.32},
+'Stetson Bennett IV':{ppg:11.2},
+'T.J. Hockenson':{ppg:5.71},
+'Tahj Brooks':{ppg:2.2},
+'Tai Felton':{ppg:0.73},
+'Tank Bigsby':{ppg:4.73},
+'Tank Dell':{ppg:4.5},
+'Tanner Hudson':{ppg:0.41},
+'Tanner Koziol':{ppg:0.58},
+'Tanner McKee':{ppg:9.92},
+'Teddy Bridgewater':{ppg:8.14},
+'Tee Higgins':{ppg:11.02},
+'Terrace Marshall Jr':{ppg:0.46},
+'Terrance Ferguson':{ppg:4.85},
+'Terry McLaurin':{ppg:10.75},
+'Tetairoa McMillan':{ppg:11.09},
+'Tez Johnson':{ppg:2.1},
+'Theo Johnson':{ppg:3.65},
+'Thomas Fidone II':{ppg:0.16},
+'Tim Patrick':{ppg:0.59},
+'Tip Reiman':{ppg:0.28},
+'Tommy DeVito':{ppg:7.61},
+'Tommy Tremble':{ppg:1.33},
+'Tony Pollard':{ppg:10.24},
+'Tory Horton':{ppg:2.21},
+'Travis Etienne':{ppg:12.47},
+'Travis Hunter':{ppg:3.86},
+'Travis Kelce':{ppg:7.87},
+'Tre Tucker':{ppg:6.07},
+'Tre\' Harris':{ppg:4.66},
+'TreVeyon Henderson':{ppg:10.69},
+'Trevor Etienne':{ppg:1.13},
+'Trevor Lawrence':{ppg:18.25},
+'Trey Benson':{ppg:0.1},
+'Trey Lance':{ppg:7.81},
+'Trey McBride':{ppg:10.93},
+'Treylon Burks':{ppg:1.31},
+'Troy Franklin':{ppg:2.94},
+'Tua Tagovailoa':{ppg:13.69},
+'Tucker Kraft':{ppg:8.81},
+'Tutu Atwell':{ppg:3.21},
+'Ty Johnson':{ppg:3.73},
+'Ty Simpson':{ppg:8.97},
+'Tyjae Spears':{ppg:5.91},
+'Tyler Allgeier':{ppg:5.67},
+'Tyler Badie':{ppg:0.12},
+'Tyler Conklin':{ppg:0.37},
+'Tyler Goodson':{ppg:0.13},
+'Tyler Higbee':{ppg:2.75},
+'Tyler Huntley':{ppg:7.25},
+'Tyler Shough':{ppg:16.5},
+'Tyler Warren':{ppg:8.44},
+'Tyquan Thornton':{ppg:3.89},
+'Tyreek Hill':{ppg:5.76},
+'Tyrod Taylor':{ppg:8.8},
+'Tyrone Tracy Jr.':{ppg:6.37},
+'Tyson Bagent':{ppg:8.34},
+'Van Jefferson':{ppg:2.33},
+'Wan\'Dale Robinson':{ppg:7.57},
+'Will Howard':{ppg:14.35},
+'Will Kacmarek':{ppg:0.49},
+'Will Levis':{ppg:10.4},
+'Will Shipley':{ppg:1.32},
+'Woody Marks':{ppg:6.09},
+'Xavier Hutchinson':{ppg:0.93},
+'Xavier Legette':{ppg:3.56},
+'Xavier Smith':{ppg:0.56},
+'Xavier Weaver':{ppg:0.5},
+'Xavier Worthy':{ppg:7.47},
+'Zach Charbonnet':{ppg:11.77},
+'Zachariah Branch':{ppg:2.28},
+'Zavion Thomas':{ppg:0.82},
+'Zay Flowers':{ppg:10.97},
 };
 
 var ELITE_PAR_THRESH={QB:4.4,RB:8.3,WR:5.5,TE:3.6};
@@ -748,14 +799,17 @@ const posMean=getPosMean(p.pos, p.age||25);
 
 // CASE 1: Has projection + has history → blend with data-driven optimal weights
 if(projPPG>0 && nHist>0){
-  // PHASE DETECTION on historical data
+  // PHASE DETECTION on historical data (only full seasons — 14+ GP)
   let phase='stable';
   if(nHist>=2){
-    const diffs=[];
-    for(let i=0;i<nHist-1;i++){diffs.push(seasons[i].ppg-seasons[i+1].ppg);}
-    const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
-    if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
-    else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+    const fullSeasons=seasons.filter(s=>s.gp>=14);
+    if(fullSeasons.length>=2){
+      const diffs=[];
+      for(let i=0;i<fullSeasons.length-1;i++){diffs.push(fullSeasons[i].ppg-fullSeasons[i+1].ppg);}
+      const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
+      if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
+      else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+    }
   }
 
   // Historical weighted PPG with phase-adjusted recency
@@ -788,14 +842,17 @@ if(projPPG>0 && nHist===0){
 // CASE 3: No projection → fall back to historical-only with regression
 if(nHist===0)return 0;
 
-// Phase detection
+// Phase detection (only full seasons — 14+ GP)
 let phase='stable';
 if(nHist>=2){
-  const diffs=[];
-  for(let i=0;i<nHist-1;i++){diffs.push(seasons[i].ppg-seasons[i+1].ppg);}
-  const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
-  if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
-  else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+  const fullSeasons=seasons.filter(s=>s.gp>=14);
+  if(fullSeasons.length>=2){
+    const diffs=[];
+    for(let i=0;i<fullSeasons.length-1;i++){diffs.push(fullSeasons[i].ppg-fullSeasons[i+1].ppg);}
+    const avgDiff=diffs.reduce((s,d)=>s+d,0)/diffs.length;
+    if(avgDiff>PHASE_ASC_THRESH)phase='ascending';
+    else if(avgDiff<PHASE_DEC_THRESH)phase='declining';
+  }
 }
 
 const recentW=PHASE_WEIGHTS[phase]||0.61;
@@ -842,27 +899,35 @@ if(p.ppg25&&p.gp25>=4){
 const cv=curve[p.age]||0.5; // age in 2025 = p.age - 1 (p.age is entering 2026)
 const ageIn2025=p.age-1;
 const cv25=curve[ageIn2025]||curve[p.age]||0.5;
-if(cv25>0)impliedPeaks.push({yr:2025,implied:Math.min(p.ppg25/cv25,ceiling)});
+if(cv25>0)impliedPeaks.push({yr:2025,implied:Math.min(p.ppg25/cv25,ceiling),gp:p.gp25});
 }
 if(p.ppg24&&p.gp24>=4){
 const ageIn2024=p.age-2;
 const cv24=curve[ageIn2024]||0.5;
-if(cv24>0)impliedPeaks.push({yr:2024,implied:Math.min(p.ppg24/cv24,ceiling)});
+if(cv24>0)impliedPeaks.push({yr:2024,implied:Math.min(p.ppg24/cv24,ceiling),gp:p.gp24||14});
 }
 if(p.ppg23&&p.gp23>=4){
 const ageIn2023=p.age-3;
 const cv23=curve[ageIn2023]||0.5;
-if(cv23>0)impliedPeaks.push({yr:2023,implied:Math.min(p.ppg23/cv23,ceiling)});
+if(cv23>0)impliedPeaks.push({yr:2023,implied:Math.min(p.ppg23/cv23,ceiling),gp:p.gp23||14});
 }
 
-if(impliedPeaks.length===0)return ceiling*0.5;
+if(impliedPeaks.length===0){
+var proj=PROJ_2026[p.name];
+if(proj)return Math.min(proj.ppg,ceiling);
+return ceiling*0.5;
+}
 
-// Weight recent implied peaks more heavily
+// Weight by recency × games played (more games = more reliable signal)
 impliedPeaks.sort((a,b)=>b.yr-a.yr);
 let peakEstimate;
-if(impliedPeaks.length===1)peakEstimate=impliedPeaks[0].implied;
-else if(impliedPeaks.length===2)peakEstimate=impliedPeaks[0].implied*0.65+impliedPeaks[1].implied*0.35;
-else peakEstimate=impliedPeaks[0].implied*0.50+impliedPeaks[1].implied*0.30+impliedPeaks[2].implied*0.20;
+if(impliedPeaks.length===1){peakEstimate=impliedPeaks[0].implied;}
+else{
+const recencyW=impliedPeaks.length===2?[0.65,0.35]:[0.50,0.30,0.20];
+const rawW=impliedPeaks.map((pk,i)=>recencyW[i]*Math.min(pk.gp/17,1.0));
+const totalW=rawW.reduce((s,w)=>s+w,0);
+peakEstimate=impliedPeaks.reduce((s,pk,i)=>s+pk.implied*(rawW[i]/totalW),0);
+}
 
 // Cap at position ceiling
 return Math.min(peakEstimate,ceiling);
@@ -879,21 +944,16 @@ t20:{QB:byPos.QB[19]||12,RB:byPos.RB[19]||8,WR:byPos.WR[19]||8,TE:byPos.TE[9]||7
 };
 }
 
-function calcValue(p,thresholds){
+function calcValue(p,thresholds,teRanks){
 const weightedPPG=calcWeightedPPG(p);
-if(weightedPPG<=0)return{val:0,projs:[],risk:0.5,eliteYrs:0,starterYrs:0,weightedPPG:0,peakPPG:0,proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
+if(weightedPPG<=0)return{val:0,projs:[],eliteYrs:0,starterYrs:0,weightedPPG:0,peakPPG:0,proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
 
-const risk=calcInjuryRisk(p);
 const curve=AGING[p.pos]||AGING.WR;
 const dr=DISC_RATE[p.pos]||0.15;
 const repl=REPL_LEVEL[p.pos]||8;
 const maxAge=Math.max(...Object.keys(curve).map(Number));
 
 const playerPeak=calcPlayerPeak(p);
-
-// CONFIDENCE DISCOUNT: fewer career games = less certainty
-const totalGP=(p.gp25||0)+(p.gp24||0)+(p.gp23||0);
-const confidence=Math.min(1.0,0.50+0.50*(totalGP/34));
 
 // PROJECTED GAMES PER SEASON: weighted average of recent GP
 // Captures durability — fragile players get fewer games of PAR credit
@@ -915,6 +975,11 @@ const fa=p.age+yr;
 const cv=curve[fa]||0;
 if(cv===0)break;
 
+// Regress projected GP toward healthy baseline (15.5) over 4 years
+// Year 0 uses raw projGP; by year 4+ assumes healthy starter average
+const HEALTHY_GP=15.5;
+const yearGP=Math.min(17,projGP+(HEALTHY_GP-projGP)*Math.min(yr/4,1.0));
+
 // Project PPG for this season
 const genericProj=playerPeak*cv;
 const currentPPG=weightedPPG;
@@ -931,13 +996,14 @@ const adjPPG=pppg;
 // CHAMPIONSHIP EQUITY: Points Above Replacement, raised to power k
 // Apply DATA-DRIVEN scarcity multiplier: QB/RB/TE elite worth more than raw PAR suggests
 const par=Math.max(0,adjPPG-repl);
-const scarcity=SCARCITY_MULT[p.pos]||1.0;
-const seasonEquity=Math.pow(par,K_EXPONENT)*projGP*scarcity;
+let scarcity=SCARCITY_MULT[p.pos]||1.0;
+if(p.pos==='TE'&&teRanks&&teRanks[p.name]>TE_ELITE_CUTOFF){scarcity=1.0;}
+const seasonEquity=Math.pow(par,K_EXPONENT)*yearGP*scarcity;
 
-// Discount by year and confidence; apply injury risk via GP already
-const disc=seasonEquity*confidence*risk/Math.pow(1+dr,yr);
+// Discount by year; durability captured via regressing projGP
+const disc=seasonEquity/Math.pow(1+dr,yr);
 npv+=disc;
-projs.push({yr:2026+yr,age:fa,ppg:+pppg.toFixed(1),adjPPG:+adjPPG.toFixed(1),par:+par.toFixed(1),gp:Math.round(projGP),disc:Math.round(disc)});
+projs.push({yr:2026+yr,age:fa,ppg:+pppg.toFixed(1),adjPPG:+adjPPG.toFixed(1),par:+par.toFixed(1),gp:Math.round(yearGP),disc:Math.round(disc)});
 }
 
 // ELITE & STARTER YEARS REMAINING
@@ -951,7 +1017,7 @@ return pr.par>=posElite;
 const starterYrs=projs.filter(pr=>pr.par>0).length;
 
 const rawVal=Math.round(npv);
-return{val:rawVal,projs,risk,eliteYrs,starterYrs,weightedPPG,peakPPG:playerPeak,confidence,projGP:Math.round(projGP),proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
+return{val:rawVal,projs,eliteYrs,starterYrs,weightedPPG,peakPPG:playerPeak,projGP:Math.round(projGP),proj2026:(PROJ_2026[p.name]?PROJ_2026[p.name].ppg:0)};
 }
 
 function getTier(v){
@@ -1190,6 +1256,278 @@ const PLAYERS=[
 {name:"Jonnu Smith",pos:"TE",team:"PIT",age:30,ppg25:3.9,gp25:17,ppg24:10.5,gp24:17,ppg23:5.8,gp23:17},
 {name:"Luke Musgrave",pos:"TE",team:"GB",age:25,ppg25:2.2,gp25:17,ppg24:1.1,gp24:7,ppg23:5.3,gp23:11},
 {name:"Ja'Tavion Sanders",pos:"TE",team:"CAR",age:23,ppg25:3.0,gp25:13,ppg24:3.5,gp24:16}
+,
+{name:"AJ Dillon",pos:"RB",team:"CAR",age:28},
+{name:"Adam Randall",pos:"RB",team:"BAL",age:21},
+{name:"Adam Trautman",pos:"TE",team:"DEN",age:29},
+{name:"Adrian Martinez",pos:"QB",team:"SF",age:26},
+{name:"Alec Ingold",pos:"RB",team:"LAC",age:29},
+{name:"Andrei Iosivas",pos:"WR",team:"CIN",age:26},
+{name:"Andy Dalton",pos:"QB",team:"PHI",age:38},
+{name:"Anthony Gould",pos:"WR",team:"IND",age:25},
+{name:"Arian Smith",pos:"WR",team:"NYJ",age:24},
+{name:"Ashton Dulin",pos:"WR",team:"IND",age:29},
+{name:"Athan Kaliakmanis",pos:"QB",team:"WAS",age:22},
+{name:"Austin Hooper",pos:"TE",team:"ATL",age:31},
+{name:"Bailey Zappe",pos:"QB",team:"NYJ",age:27},
+{name:"Bam Knight",pos:"RB",team:"ARI",age:25},
+{name:"Barion Brown",pos:"WR",team:"NO",age:22},
+{name:"Bauer Sharp",pos:"TE",team:"TB",age:23},
+{name:"Ben Sims",pos:"TE",team:"MIA",age:26},
+{name:"Ben Skowronek",pos:"WR",team:"PIT",age:29},
+{name:"Ben Yurosek",pos:"TE",team:"MIN",age:24},
+{name:"Brady Cook",pos:"QB",team:"NYJ",age:24},
+{name:"Brandon Aiyuk",pos:"WR",team:"SF",age:28},
+{name:"Brashard Smith",pos:"RB",team:"KC",age:23},
+{name:"Braxton Berrios",pos:"WR",team:"NYG",age:30},
+{name:"Brenden Bates",pos:"TE",team:"CLE",age:26},
+{name:"Brenen Thompson",pos:"WR",team:"LAC",age:22},
+{name:"Brevyn Spann-Ford",pos:"TE",team:"DAL",age:26},
+{name:"Britain Covey",pos:"WR",team:"PHI",age:29},
+{name:"Brock Wright",pos:"TE",team:"DET",age:27},
+{name:"Bryce Lance",pos:"WR",team:"NO",age:23},
+{name:"CJ Daniels",pos:"WR",team:"LAR",age:24},
+{name:"Cade Stover",pos:"TE",team:"HOU",age:26},
+{name:"Caleb Douglas",pos:"WR",team:"MIA",age:22},
+{name:"Calvin Austin III",pos:"WR",team:"NYG",age:27},
+{name:"Carnell Tate",pos:"WR",team:"TEN",age:21},
+{name:"Carson Beck",pos:"QB",team:"ARI",age:24},
+{name:"Charlie Kolar",pos:"TE",team:"LAC",age:27},
+{name:"Charlie Woerner",pos:"TE",team:"ATL",age:28},
+{name:"Chris Bell",pos:"WR",team:"MIA",age:22},
+{name:"Chris Brooks",pos:"RB",team:"GB",age:26},
+{name:"Chris Rodriguez Jr.",pos:"RB",team:"JAX",age:25},
+{name:"Christian Kirk",pos:"WR",team:"SF",age:29},
+{name:"Colbie Young",pos:"WR",team:"CIN",age:23},
+{name:"Curtis Samuel",pos:"WR",team:"FA",age:29},
+{name:"Cyrus Allen",pos:"WR",team:"KC",age:23},
+{name:"DJ Giddens",pos:"RB",team:"IND",age:22},
+{name:"Daniel Bellinger",pos:"TE",team:"TEN",age:25},
+{name:"Darius Slayton",pos:"WR",team:"NYG",age:29},
+{name:"Darnell Mooney",pos:"WR",team:"NYG",age:28},
+{name:"Darnell Washington",pos:"TE",team:"PIT",age:24},
+{name:"Davis Allen",pos:"TE",team:"LAR",age:25},
+{name:"Davis Mills",pos:"QB",team:"HOU",age:27},
+{name:"DeMario Douglas",pos:"WR",team:"NE",age:25},
+{name:"DeeJay Dallas",pos:"RB",team:"JAX",age:27},
+{name:"Deion Burks",pos:"WR",team:"IND",age:23},
+{name:"Demarcus Robinson",pos:"WR",team:"SF",age:31},
+{name:"Denzel Boston",pos:"WR",team:"CLE",age:22},
+{name:"Derius Davis",pos:"WR",team:"LAC",age:25},
+{name:"Devaughn Vele",pos:"WR",team:"NO",age:28},
+{name:"Devin Culp",pos:"TE",team:"TB",age:26},
+{name:"Devin Singletary",pos:"RB",team:"NYG",age:28},
+{name:"Devontez Walker",pos:"WR",team:"BAL",age:25},
+{name:"Dont'e Thornton Jr.",pos:"WR",team:"LV",age:23},
+{name:"Drew Lock",pos:"QB",team:"SEA",age:29},
+{name:"Drew Sample",pos:"TE",team:"CIN",age:30},
+{name:"Durham Smythe",pos:"TE",team:"BAL",age:30},
+{name:"Dyami Brown",pos:"WR",team:"WAS",age:26},
+{name:"Dylan Laube",pos:"RB",team:"LV",age:26},
+{name:"Eli Raridon",pos:"TE",team:"NE",age:22},
+{name:"Eli Stowers",pos:"TE",team:"PHI",age:23},
+{name:"Elijah Arroyo",pos:"TE",team:"SEA",age:23},
+{name:"Elijah Higgins",pos:"TE",team:"ARI",age:25},
+{name:"Elijah Sarratt",pos:"WR",team:"BAL",age:23},
+{name:"Emanuel Wilson",pos:"RB",team:"SEA",age:27},
+{name:"Emari Demercado",pos:"RB",team:"KC",age:27},
+{name:"Emmanuel Henderson Jr.",pos:"WR",team:"SEA",age:22},
+{name:"Eric Saubert",pos:"TE",team:"SEA",age:32},
+{name:"Erick All Jr.",pos:"TE",team:"CIN",age:25},
+{name:"Fernando Mendoza",pos:"QB",team:"LV",age:22},
+{name:"Foster Moreau",pos:"TE",team:"HOU",age:29},
+{name:"Gardner Minshew II",pos:"QB",team:"ARI",age:30},
+{name:"Gavin Bartholomew",pos:"TE",team:"MIN",age:23},
+{name:"George Holani",pos:"RB",team:"SEA",age:26},
+{name:"Germie Bernard",pos:"WR",team:"PIT",age:22},
+{name:"Grant Calcaterra",pos:"TE",team:"PHI",age:27},
+{name:"Greg Dortch",pos:"WR",team:"DET",age:28},
+{name:"Greg Dulcich",pos:"TE",team:"MIA",age:26},
+{name:"Hollywood Brown",pos:"WR",team:"PHI",age:29},
+{name:"Hunter Long",pos:"TE",team:"JAX",age:27},
+{name:"Hunter Luepke",pos:"RB",team:"DAL",age:26},
+{name:"Isaac TeSlaa",pos:"WR",team:"DET",age:24},
+{name:"Isaiah Davis",pos:"RB",team:"NYJ",age:24},
+{name:"Isaiah Hodgins",pos:"WR",team:"NYG",age:27},
+{name:"Isaiah Williams",pos:"WR",team:"NYJ",age:25},
+{name:"JJ Galbreath",pos:"TE",team:"PIT",age:24},
+{name:"Ja'Kobi Lane",pos:"WR",team:"BAL",age:21},
+{name:"Ja'Lynn Polk",pos:"WR",team:"NO",age:25},
+{name:"Jack Bech",pos:"WR",team:"LV",age:23},
+{name:"Jack Endries",pos:"TE",team:"CIN",age:22},
+{name:"Jack Stoll",pos:"TE",team:"CLE",age:28},
+{name:"Jackson Hawes",pos:"TE",team:"BUF",age:25},
+{name:"Jacob Cowing",pos:"WR",team:"SF",age:25},
+{name:"Jadarian Price",pos:"RB",team:"SEA",age:22},
+{name:"Jahan Dotson",pos:"WR",team:"ATL",age:26},
+{name:"Jahdae Walker",pos:"WR",team:"CHI",age:24},
+{name:"Jake Bobo",pos:"WR",team:"SEA",age:27},
+{name:"Jake Browning",pos:"QB",team:"TB",age:30},
+{name:"Jake Tonges",pos:"TE",team:"SF",age:26},
+{name:"Jaleel McLaughlin",pos:"RB",team:"DEN",age:25},
+{name:"Jalen Milroe",pos:"QB",team:"SEA",age:23},
+{name:"Jalen Nailor",pos:"WR",team:"LV",age:27},
+{name:"Jalen Royals",pos:"WR",team:"KC",age:23},
+{name:"Jalen Tolbert",pos:"WR",team:"MIA",age:27},
+{name:"Jalin Hyatt",pos:"WR",team:"NYG",age:24},
+{name:"Jam Miller",pos:"RB",team:"NE",age:22},
+{name:"Jameis Winston",pos:"QB",team:"NYG",age:32},
+{name:"James Conner",pos:"RB",team:"ARI",age:31},
+{name:"Jared Wiley",pos:"TE",team:"KC",age:25},
+{name:"Jaret Patterson",pos:"RB",team:"LAC",age:26},
+{name:"Jarquez Hunter",pos:"RB",team:"LAR",age:23},
+{name:"Jarrett Stidham",pos:"QB",team:"DEN",age:29},
+{name:"Jawhar Jordan",pos:"RB",team:"HOU",age:26},
+{name:"Jaydon Blue",pos:"RB",team:"DAL",age:22},
+{name:"Jaylin Lane",pos:"WR",team:"WAS",age:24},
+{name:"Jaylin Noel",pos:"WR",team:"HOU",age:23},
+{name:"Jeremiyah Love",pos:"RB",team:"ARI",age:21},
+{name:"Jeremy McNichols",pos:"RB",team:"WAS",age:30},
+{name:"Jeremy Ruckert",pos:"TE",team:"NYJ",age:25},
+{name:"Jimmy Horn Jr.",pos:"WR",team:"CAR",age:23},
+{name:"Joe Flacco",pos:"QB",team:"CIN",age:41},
+{name:"Joe Milton III",pos:"QB",team:"DAL",age:26},
+{name:"Joe Royer",pos:"TE",team:"CLE",age:24},
+{name:"John Bates",pos:"TE",team:"WAS",age:28},
+{name:"John Metchie III",pos:"WR",team:"CAR",age:25},
+{name:"Johnny Mundt",pos:"TE",team:"PHI",age:31},
+{name:"Johnny Wilson",pos:"WR",team:"PHI",age:25},
+{name:"Jonah Coleman",pos:"RB",team:"DEN",age:22},
+{name:"Jonathan Mingo",pos:"WR",team:"DAL",age:25},
+{name:"Jonathon Brooks",pos:"RB",team:"CAR",age:22},
+{name:"Jordan James",pos:"RB",team:"SF",age:22},
+{name:"Jordan Watkins",pos:"WR",team:"SF",age:24},
+{name:"Jordan Whittington",pos:"WR",team:"LAR",age:25},
+{name:"Jordyn Tyson",pos:"WR",team:"NO",age:21},
+{name:"Josh Oliver",pos:"TE",team:"MIN",age:29},
+{name:"Josh Whyle",pos:"TE",team:"GB",age:26},
+{name:"Joshua Palmer",pos:"WR",team:"BUF",age:26},
+{name:"JuJu Smith-Schuster",pos:"WR",team:"NYG",age:29},
+{name:"Julian Hill",pos:"TE",team:"NE",age:25},
+{name:"Justice Hill",pos:"RB",team:"BAL",age:28},
+{name:"Justin Joly",pos:"TE",team:"DEN",age:21},
+{name:"Justin Watson",pos:"WR",team:"HOU",age:30},
+{name:"KC Concepcion",pos:"WR",team:"CLE",age:21},
+{name:"KaVontae Turpin",pos:"WR",team:"DAL",age:29},
+{name:"Kaden Wetjen",pos:"WR",team:"PIT",age:24},
+{name:"Kaleb Johnson",pos:"RB",team:"PIT",age:22},
+{name:"Kalel Mullings",pos:"RB",team:"TEN",age:23},
+{name:"Kalif Raymond",pos:"WR",team:"CHI",age:31},
+{name:"Kaytron Allen",pos:"RB",team:"WAS",age:23},
+{name:"Keandre Lambert-Smith",pos:"WR",team:"LAC",age:23},
+{name:"Keaton Mitchell",pos:"RB",team:"LAC",age:24},
+{name:"Kendre Miller",pos:"RB",team:"NO",age:24},
+{name:"Kendrick Bourne",pos:"WR",team:"ARI",age:30},
+{name:"Kendrick Law",pos:"WR",team:"DET",age:22},
+{name:"Kenny Pickett",pos:"QB",team:"CAR",age:28},
+{name:"Kenyon Sadiq",pos:"TE",team:"NYJ",age:21},
+{name:"Konata Mumpfield",pos:"WR",team:"LAR",age:23},
+{name:"Kyle Allen",pos:"QB",team:"BUF",age:30},
+{name:"Kyle Juszczyk",pos:"RB",team:"SF",age:35},
+{name:"Kyle Williams",pos:"WR",team:"NE",age:23},
+{name:"Kylen Granson",pos:"TE",team:"TEN",age:28},
+{name:"Laquon Treadwell",pos:"WR",team:"IND",age:31},
+{name:"LeQuint Allen Jr.",pos:"RB",team:"JAX",age:21},
+{name:"Lil'Jordan Humphrey",pos:"WR",team:"DEN",age:28},
+{name:"Luke Farrell",pos:"TE",team:"SF",age:28},
+{name:"Luke McCaffrey",pos:"WR",team:"WAS",age:25},
+{name:"Luke Schoonmaker",pos:"TE",team:"DAL",age:27},
+{name:"Mac Jones",pos:"QB",team:"SF",age:27},
+{name:"Mack Hollins",pos:"WR",team:"NE",age:32},
+{name:"Makai Lemon",pos:"WR",team:"PHI",age:22},
+{name:"Malik Benson",pos:"WR",team:"LV",age:23},
+{name:"Malik Davis",pos:"RB",team:"DAL",age:27},
+{name:"Malik Washington",pos:"WR",team:"MIA",age:25},
+{name:"MarShawn Lloyd",pos:"RB",team:"GB",age:25},
+{name:"Marcus Mariota",pos:"QB",team:"WAS",age:32},
+{name:"Marlin Klein",pos:"TE",team:"HOU",age:23},
+{name:"Marvin Mims Jr.",pos:"WR",team:"DEN",age:24},
+{name:"Mason Rudolph",pos:"QB",team:"PIT",age:30},
+{name:"Mason Tipton",pos:"WR",team:"NO",age:25},
+{name:"Matt Hibner",pos:"TE",team:"BAL",age:24},
+{name:"Max Klare",pos:"TE",team:"LAR",age:22},
+{name:"Mike Gesicki",pos:"TE",team:"CIN",age:30},
+{name:"Mike Washington Jr.",pos:"RB",team:"LV",age:23},
+{name:"Mitch Tinsley",pos:"WR",team:"CIN",age:26},
+{name:"Mitchell Evans",pos:"TE",team:"CAR",age:23},
+{name:"Mitchell Trubisky",pos:"QB",team:"TEN",age:31},
+{name:"Mo Alie-Cox",pos:"TE",team:"IND",age:32},
+{name:"Myles Price",pos:"WR",team:"MIN",age:24},
+{name:"Nate Adkins",pos:"TE",team:"DEN",age:26},
+{name:"Nate Boerkircher",pos:"TE",team:"JAX",age:24},
+{name:"Nick Mullens",pos:"QB",team:"JAX",age:31},
+{name:"Nick Westbrook-Ikhine",pos:"WR",team:"IND",age:29},
+{name:"Noah Fant",pos:"TE",team:"NO",age:28},
+{name:"Noah Gray",pos:"TE",team:"KC",age:27},
+{name:"Odell Beckham Jr",pos:"WR",team:"NYG",age:33},
+{name:"Olamide Zaccheaus",pos:"WR",team:"ATL",age:28},
+{name:"Ollie Gordon II",pos:"RB",team:"MIA",age:22},
+{name:"Omar Cooper Jr.",pos:"WR",team:"NYJ",age:22},
+{name:"Oronde Gadsden",pos:"TE",team:"LAC",age:23},
+{name:"Parris Campbell",pos:"WR",team:"FA",age:28},
+{name:"Pat Bryant",pos:"WR",team:"DEN",age:23},
+{name:"Patrick Ricard",pos:"RB",team:"NYG",age:32},
+{name:"Payne Durham",pos:"TE",team:"TB",age:26},
+{name:"Phil Mafah",pos:"RB",team:"DAL",age:23},
+{name:"Pierre Strong Jr",pos:"RB",team:"GB",age:27},
+{name:"Quintin Morris",pos:"TE",team:"JAX",age:27},
+{name:"Raheim Sanders",pos:"RB",team:"CLE",age:24},
+{name:"Rasheen Ali",pos:"RB",team:"BAL",age:25},
+{name:"Reggie Virgil",pos:"WR",team:"ARI",age:22},
+{name:"Riley Leonard",pos:"QB",team:"IND",age:23},
+{name:"Roman Wilson",pos:"WR",team:"PIT",age:25},
+{name:"Roschon Johnson",pos:"RB",team:"CHI",age:25},
+{name:"Ryan Flournoy",pos:"WR",team:"DAL",age:26},
+{name:"Sam Howell",pos:"QB",team:"DAL",age:25},
+{name:"Samaje Perine",pos:"RB",team:"CIN",age:30},
+{name:"Savion Williams",pos:"WR",team:"GB",age:24},
+{name:"Sean McKeon",pos:"TE",team:"IND",age:28},
+{name:"Seth McGowan",pos:"RB",team:"IND",age:24},
+{name:"Seydou Traore",pos:"TE",team:"MIA",age:23},
+{name:"Sione Vaki",pos:"RB",team:"DET",age:24},
+{name:"Skyy Moore",pos:"WR",team:"GB",age:25},
+{name:"Stetson Bennett IV",pos:"QB",team:"LAR",age:28},
+{name:"Tahj Brooks",pos:"RB",team:"CIN",age:24},
+{name:"Tai Felton",pos:"WR",team:"MIN",age:23},
+{name:"Tank Dell",pos:"WR",team:"HOU",age:26},
+{name:"Tanner Hudson",pos:"TE",team:"CIN",age:31},
+{name:"Tanner Koziol",pos:"TE",team:"JAX",age:23},
+{name:"Tanner McKee",pos:"QB",team:"PHI",age:26},
+{name:"Teddy Bridgewater",pos:"QB",team:"DET",age:33},
+{name:"Terrace Marshall Jr",pos:"WR",team:"MIA",age:26},
+{name:"Terrance Ferguson",pos:"TE",team:"LAR",age:23},
+{name:"Tez Johnson",pos:"WR",team:"TB",age:24},
+{name:"Thomas Fidone II",pos:"TE",team:"NYG",age:23},
+{name:"Tim Patrick",pos:"WR",team:"NYJ",age:32},
+{name:"Tip Reiman",pos:"TE",team:"ARI",age:24},
+{name:"Tommy DeVito",pos:"QB",team:"NE",age:27},
+{name:"Tommy Tremble",pos:"TE",team:"CAR",age:26},
+{name:"Tory Horton",pos:"WR",team:"SEA",age:23},
+{name:"Tre' Harris",pos:"WR",team:"LAC",age:24},
+{name:"Trevor Etienne",pos:"RB",team:"CAR",age:21},
+{name:"Trey Benson",pos:"RB",team:"ARI",age:23},
+{name:"Trey Lance",pos:"QB",team:"LAC",age:26},
+{name:"Treylon Burks",pos:"WR",team:"WAS",age:26},
+{name:"Tutu Atwell",pos:"WR",team:"MIA",age:26},
+{name:"Ty Johnson",pos:"RB",team:"BUF",age:28},
+{name:"Ty Simpson",pos:"QB",team:"LAR",age:23},
+{name:"Tyler Badie",pos:"RB",team:"DEN",age:26},
+{name:"Tyler Conklin",pos:"TE",team:"DET",age:30},
+{name:"Tyler Goodson",pos:"RB",team:"ATL",age:25},
+{name:"Tyler Higbee",pos:"TE",team:"LAR",age:33},
+{name:"Tyler Huntley",pos:"QB",team:"BAL",age:28},
+{name:"Tyquan Thornton",pos:"WR",team:"KC",age:25},
+{name:"Tyrod Taylor",pos:"QB",team:"GB",age:36},
+{name:"Tyson Bagent",pos:"QB",team:"CHI",age:26},
+{name:"Van Jefferson",pos:"WR",team:"WAS",age:29},
+{name:"Will Howard",pos:"QB",team:"PIT",age:24},
+{name:"Will Kacmarek",pos:"TE",team:"MIA",age:23},
+{name:"Will Shipley",pos:"RB",team:"PHI",age:23},
+{name:"Xavier Hutchinson",pos:"WR",team:"HOU",age:26},
+{name:"Xavier Smith",pos:"WR",team:"LAR",age:28},
+{name:"Xavier Weaver",pos:"WR",team:"ARI",age:25},
+{name:"Zachariah Branch",pos:"WR",team:"ATL",age:22},
+{name:"Zavion Thomas",pos:"WR",team:"CHI",age:22}
 ];
 
 // Calculate elite thresholds from 2025 data
@@ -1211,8 +1549,13 @@ const DRAFT_PICK_TIERS={
 };
 
 // Process all players with values
+// First pass: compute TE rankings by weightedPPG for scarcity split
+const teRanks={};
+const tePPGs=PLAYERS.filter(p=>p.pos==='TE').map(p=>({name:p.name,wppg:calcWeightedPPG(p)})).sort((a,b)=>b.wppg-a.wppg);
+tePPGs.forEach((t,i)=>{teRanks[t.name]=i+1;});
+
 const processedPlayers=PLAYERS.map(p=>{
-const v=calcValue(p,eliteThresholds);
+const v=calcValue(p,eliteThresholds,teRanks);
 const tier=getTier(v.val);
 const weightedPPG=v.weightedPPG;
 // livePPG = raw 2026 projection for lineup/weekly use; falls back to blended if no projection
@@ -1231,7 +1574,6 @@ val:data.avg,
 tier:getTier(data.avg),
 ppg:0,ppg25:0,ppg24:0,ppg23:0,
 eliteYrs:data.eyr,starterYrs:data.syr,
-risk:1,
 projs:[],
 weightedPPG:0,
 peakPPG:0,
@@ -1401,7 +1743,7 @@ function PlayerRow(props){
         h('div',{className:'comp-row'},h('span',null,'Weighted PPG'),h('span',{className:'mono',style:{color:'var(--accent-cyan)'}},p.weightedPPG?p.weightedPPG.toFixed(1):'\u2014')),
         h('div',{className:'comp-row'},h('span',null,'Elite Yrs'),h('span',{className:'mono',style:{color:p.eliteYrs>=3?'var(--accent-green)':p.eliteYrs>=1?'var(--accent-gold)':'var(--text-muted)'}},p.eliteYrs)),
         h('div',{className:'comp-row'},h('span',null,'Starter Yrs'),h('span',{className:'mono'},p.starterYrs)),
-        h('div',{className:'comp-row'},h('span',null,'Confidence'),h('span',{className:'mono'},(p.confidence!==undefined?(p.confidence*100).toFixed(0)+'%':'\u2014')))
+        h('div',{className:'comp-row'},h('span',null,'Proj GP'),h('span',{className:'mono'},p.projGP||'\u2014'))
       )
     );
   }
@@ -1431,11 +1773,10 @@ function PlayerRow(props){
       h('span',{className:'pos-badge',style:posBadgeStyle,'data-pos':p.pos},posLabel),
       h('div',{className:'mono',style:{fontWeight:700,fontSize:14,color:p.tier&&p.tier.c?p.tier.c:'inherit'}},p.val?p.val.toLocaleString():'0'),
       h('div',{className:'mono',style:{fontSize:11,color:'var(--text-muted)'}},ktcValStr),
-      h('div',{className:'tier-badge',style:{background:((p.tier&&p.tier.c)||'#555')+'22',color:(p.tier&&p.tier.c)||'#555',border:'1px solid '+((p.tier&&p.tier.c)||'#555')+'44',fontSize:10,padding:'2px 6px'}},p.tier&&p.tier.t?p.tier.t:''),
+      edgeLbl ? h('div',{style:{fontSize:10,fontWeight:700,color:edgeClr}},edgeLbl) : h('div',null,''),
       h('div',{className:'mono',style:{fontSize:12}},ppgText),
       h('div',{className:'mono',style:{color:eliteColor,fontSize:12}},eliteText),
       h('div',{className:'mono',style:{fontSize:12}},starterText),
-      edgeLbl ? h('div',{style:{fontSize:10,fontWeight:700,color:edgeClr}},edgeLbl) : h('div',null,''),
       h('span',{style:{color:'var(--text-muted)',fontSize:12}},expanded?'\u25B2':'\u25BC')
     ),
     expanded?compRows:null
@@ -1448,6 +1789,7 @@ function PlayerRow(props){
 // ============================================================
 function LeagueView(props){
   var onTeamData = props.onTeamData;
+  var preloadedTeamData = props.preloadedTeamData;
   var leagueData = useState(null);
   var ld = leagueData[0]; var setLd = leagueData[1];
   var usersState = useState(null);
@@ -1456,7 +1798,7 @@ function LeagueView(props){
   var rosters = rostersState[0]; var setRosters = rostersState[1];
   var nflState = useState(null);
   var nflPlayers = nflState[0]; var setNfl = nflState[1];
-  var loadState = useState(true);
+  var loadState = useState(!preloadedTeamData);
   var loading = loadState[0]; var setLoading = loadState[1];
   var errState = useState(null);
   var error = errState[0]; var setError = errState[1];
@@ -1465,6 +1807,10 @@ function LeagueView(props){
   var LID = '1312086802231734272';
 
   useEffect(function(){
+    if(preloadedTeamData && preloadedTeamData.length > 0){
+      setLoading(false);
+      return;
+    }
     Promise.all([
       fetch('https://api.sleeper.app/v1/league/'+LID),
       fetch('https://api.sleeper.app/v1/league/'+LID+'/users'),
@@ -1479,6 +1825,7 @@ function LeagueView(props){
   },[]);
 
   var teamData = useMemo(function(){
+    if(preloadedTeamData && preloadedTeamData.length > 0) return preloadedTeamData;
     if(!rosters||!users||!nflPlayers) return [];
     var teams = rosters.map(function(r){
       var user = users.find(function(u){return u.user_id===r.owner_id;});
@@ -1594,7 +1941,7 @@ function LeagueView(props){
         ),
         h('div',{style:{display:'flex',alignItems:'center',gap:16}},
           h('div',{style:{textAlign:'right'}},
-            h('div',{className:'mono',style:{fontSize:16,fontWeight:700}},t.totalVal.toLocaleString()),
+            h('div',{className:'mono',style:{fontSize:16,fontWeight:700}},Math.round(t.totalVal).toLocaleString()),
             h('div',{style:{fontSize:10,color:'var(--text-muted)'}},'Total Value')
           ),
           h('div',{style:{textAlign:'right'}},
@@ -1722,7 +2069,18 @@ function TradeCalculator(props){
     setTimeout(function(){
       var poolA = teamAData.rosterPlayers.filter(function(p){return p.val>30 && p.pos && !excludes[p.name];});
       var poolB = teamBData.rosterPlayers.filter(function(p){return p.val>30 && p.pos && !excludes[p.name];});
-      var mustInclude = Object.keys(includes).filter(function(n){return includes[n];});
+      // Split must-include by which team they belong to
+      var mustIncludeA = [];
+      var mustIncludeB = [];
+      var teamANames = {};
+      var teamBNames = {};
+      teamAData.rosterPlayers.forEach(function(p){teamANames[p.name]=true;});
+      teamBData.rosterPlayers.forEach(function(p){teamBNames[p.name]=true;});
+      Object.keys(includes).forEach(function(n){
+        if(!includes[n]) return;
+        if(teamANames[n]) mustIncludeA.push(n);
+        else if(teamBNames[n]) mustIncludeB.push(n);
+      });
       var beforeA = buildOptimalLineup(teamAData.rosterPlayers);
       var beforeAPPG = beforeA.starterPPG;
       var beforeAPAR = beforeA.starters.reduce(function(s,p){return s+getPlayerPAR(p);},0);
@@ -1730,9 +2088,14 @@ function TradeCalculator(props){
 
       function tryTrade(give,get){
         var giveNames = give.map(function(p){return p.name;});
-        // Must include all forced players
-        for(var mi=0;mi<mustInclude.length;mi++){
-          if(giveNames.indexOf(mustInclude[mi])<0) return;
+        var getNames = get.map(function(p){return p.name;});
+        // Must include all forced Team A players in give side
+        for(var mi=0;mi<mustIncludeA.length;mi++){
+          if(giveNames.indexOf(mustIncludeA[mi])<0) return;
+        }
+        // Must include all forced Team B players in get side
+        for(var mi2=0;mi2<mustIncludeB.length;mi2++){
+          if(getNames.indexOf(mustIncludeB[mi2])<0) return;
         }
         var giveVal = give.reduce(function(s,p){return s+p.val;},0);
         var getVal = get.reduce(function(s,p){return s+p.val;},0);
@@ -1740,14 +2103,9 @@ function TradeCalculator(props){
         if(modelEdge <= 0) return;
         var giveKtc = give.reduce(function(s,p){return s+getKtcVal(p);},0);
         var getKtc = get.reduce(function(s,p){return s+getKtcVal(p);},0);
-        // Use KTC raw adjustment to check fairness (opponent's perspective)
-        // Opponent gives 'get' players, receives 'give' players
         var ktcFair = ktcTradeFairness(give, get);
-        // ktcFair.diff > 0 means Team A (give side) has more raw adj = opponent wins on KTC
-        // ktcFair.diff < 0 means opponent loses on KTC
-        // We want opponent to win or break even: ktcFair.diff >= 0 OR evenPlayerVal small
-        var ktcEdge = ktcFair.diff; // positive = opponent wins on KTC adjusted
-        if(ktcEdge < 0 && ktcFair.evenPlayerVal > 500) return; // opponent loses too much on KTC adjusted
+        var ktcEdge = ktcFair.diff;
+        if(ktcEdge < 0 && ktcFair.evenPlayerVal > 500) return;
         var newRosterA = teamAData.rosterPlayers.filter(function(p){return giveNames.indexOf(p.name)<0;});
         get.forEach(function(p){
           var existing = teamBData.rosterPlayers.find(function(rp){return rp.name===p.name;});
@@ -1767,30 +2125,49 @@ function TradeCalculator(props){
         });
       }
 
-      var hasInc = mustInclude.length > 0;
+      var hasIncA = mustIncludeA.length > 0;
+      var hasIncB = mustIncludeB.length > 0;
+      // 1-for-1
       for(var i=0;i<poolA.length;i++){
-        if(hasInc && mustInclude.length===1 && poolA[i].name!==mustInclude[0]) continue;
-        if(hasInc && mustInclude.length>1) continue;
-        for(var j=0;j<poolB.length;j++){ tryTrade([poolA[i]],[poolB[j]]); }
+        if(hasIncA && mustIncludeA.length===1 && poolA[i].name!==mustIncludeA[0]) continue;
+        if(hasIncA && mustIncludeA.length>1) continue;
+        for(var j=0;j<poolB.length;j++){
+          if(hasIncB && mustIncludeB.length===1 && poolB[j].name!==mustIncludeB[0]) continue;
+          if(hasIncB && mustIncludeB.length>1) continue;
+          tryTrade([poolA[i]],[poolB[j]]);
+        }
       }
+      // 2-for-1
       for(var i=0;i<Math.min(poolA.length,20);i++){
         for(var i2=i+1;i2<Math.min(poolA.length,20);i2++){
-          if(hasInc){var nn=[poolA[i].name,poolA[i2].name];if(!mustInclude.every(function(n){return nn.indexOf(n)>=0;}))continue;}
-          for(var j=0;j<poolB.length;j++){ tryTrade([poolA[i],poolA[i2]],[poolB[j]]); }
+          if(hasIncA){var nn=[poolA[i].name,poolA[i2].name];if(!mustIncludeA.every(function(n){return nn.indexOf(n)>=0;}))continue;}
+          for(var j=0;j<poolB.length;j++){
+            if(hasIncB && mustIncludeB.length===1 && poolB[j].name!==mustIncludeB[0]) continue;
+            if(hasIncB && mustIncludeB.length>1) continue;
+            tryTrade([poolA[i],poolA[i2]],[poolB[j]]);
+          }
         }
       }
+      // 1-for-2
       for(var i=0;i<poolA.length;i++){
-        if(hasInc && mustInclude.length===1 && poolA[i].name!==mustInclude[0]) continue;
-        if(hasInc && mustInclude.length>1) continue;
+        if(hasIncA && mustIncludeA.length===1 && poolA[i].name!==mustIncludeA[0]) continue;
+        if(hasIncA && mustIncludeA.length>1) continue;
         for(var j=0;j<Math.min(poolB.length,20);j++){
-          for(var j2=j+1;j2<Math.min(poolB.length,20);j2++){ tryTrade([poolA[i]],[poolB[j],poolB[j2]]); }
+          for(var j2=j+1;j2<Math.min(poolB.length,20);j2++){
+            if(hasIncB){var nnB=[poolB[j].name,poolB[j2].name];if(!mustIncludeB.every(function(n){return nnB.indexOf(n)>=0;}))continue;}
+            tryTrade([poolA[i]],[poolB[j],poolB[j2]]);
+          }
         }
       }
+      // 2-for-2
       for(var i=0;i<Math.min(poolA.length,12);i++){
         for(var i2=i+1;i2<Math.min(poolA.length,12);i2++){
-          if(hasInc){var nn2=[poolA[i].name,poolA[i2].name];if(!mustInclude.every(function(n){return nn2.indexOf(n)>=0;}))continue;}
+          if(hasIncA){var nn2=[poolA[i].name,poolA[i2].name];if(!mustIncludeA.every(function(n){return nn2.indexOf(n)>=0;}))continue;}
           for(var j=0;j<Math.min(poolB.length,12);j++){
-            for(var j2=j+1;j2<Math.min(poolB.length,12);j2++){ tryTrade([poolA[i],poolA[i2]],[poolB[j],poolB[j2]]); }
+            for(var j2=j+1;j2<Math.min(poolB.length,12);j2++){
+              if(hasIncB){var nnB2=[poolB[j].name,poolB[j2].name];if(!mustIncludeB.every(function(n){return nnB2.indexOf(n)>=0;}))continue;}
+              tryTrade([poolA[i],poolA[i2]],[poolB[j],poolB[j2]]);
+            }
           }
         }
       }
@@ -3692,12 +4069,117 @@ function App(){
   var sortState = useState('value'); var sortBy = sortState[0]; var setSortBy = sortState[1];
   var expState = useState(null); var expandedId = expState[0]; var setExpandedId = expState[1];
   var tdState = useState(null); var teamData = tdState[0]; var setTeamData = tdState[1];
+  var appNflState = useState(null); var appNflPlayers = appNflState[0]; var setAppNfl = appNflState[1];
+  var appUsersState = useState(null); var appUsers = appUsersState[0]; var setAppUsers = appUsersState[1];
+  var appRostersState = useState(null); var appRosters = appRostersState[0]; var setAppRosters = appRostersState[1];
+  var appLeagueLoadedState = useState(false); var appLeagueLoaded = appLeagueLoadedState[0]; var setAppLeagueLoaded = appLeagueLoadedState[1];
+
+  // Fetch league data on app mount
+  var APP_LID = '1312086802231734272';
+  useEffect(function(){
+    Promise.all([
+      fetch('https://api.sleeper.app/v1/league/'+APP_LID),
+      fetch('https://api.sleeper.app/v1/league/'+APP_LID+'/users'),
+      fetch('https://api.sleeper.app/v1/league/'+APP_LID+'/rosters')
+    ]).then(function(res){return Promise.all(res.map(function(r){return r.json();}));})
+    .then(function(data){
+      setAppUsers(data[1]); setAppRosters(data[2]);
+      return fetch('https://api.sleeper.app/v1/players/nfl');
+    }).then(function(r){return r.json();})
+    .then(function(np){
+      setAppNfl(np);
+      setAppLeagueLoaded(true);
+    }).catch(function(e){console.log('[League] Load failed:',e);});
+  },[]);
+
+  // Build teamData whenever league data is ready
+  useEffect(function(){
+    if(!appRosters||!appUsers||!appNflPlayers) return;
+    var teams = appRosters.map(function(r){
+      var user = appUsers.find(function(u){return u.user_id===r.owner_id;});
+      var teamName = (user && user.metadata && user.metadata.team_name) || (user && user.display_name) || 'Unknown';
+      var playerIds = r.players || [];
+      var rosterPlayers = playerIds.map(function(pid){
+        var np = appNflPlayers[pid];
+        if(!np) return null;
+        var fullName = np.first_name + ' ' + np.last_name;
+        var normFull = fullName.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+        var normFullClean = normFull.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+        var match = processedPlayers.find(function(pp){
+          var normPP = pp.name.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+          var normPPClean = normPP.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+          if(normPP === normFull) return true;
+          if(normPPClean === normFullClean && pp.pos === np.position) return true;
+          return false;
+        });
+        return {name:fullName,pos:np.position||'',team:np.team||'',
+          val:match?match.val:0,ppg:match?match.ppg:0,livePPG:match?match.livePPG:(match?match.ppg:0),age:match?match.age:(np.age||0),
+          tier:match?match.tier:getTier(0),matched:!!match,peakPPG:match?match.peakPPG:0,rank:match?match.rank:999,
+          eliteYrs:match?match.eliteYrs:0,starterYrs:match?match.starterYrs:0};
+      }).filter(Boolean);
+      var lineup = buildOptimalLineup(rosterPlayers);
+      var byPosVal = {QB:0,RB:0,WR:0,TE:0};
+      rosterPlayers.forEach(function(p){if(byPosVal[p.pos]!==undefined)byPosVal[p.pos]+=p.val;});
+      var totalVal = lineup.starterVal + lineup.benchVal;
+      var starterPAR = lineup.starters.reduce(function(s,p){return s+getPlayerPAR(p);},0);
+      return {teamName:teamName,rosterPlayers:rosterPlayers,starters:lineup.starters,bench:lineup.bench,
+        starterVal:lineup.starterVal,starterPPG:lineup.starterPPG,starterPAR:starterPAR,benchVal:lineup.benchVal,totalVal:totalVal,
+        byPos:byPosVal,wins:r.settings?r.settings.wins||0:0,losses:r.settings?r.settings.losses||0:0};
+    }).sort(function(a,b){return b.totalVal-a.totalVal;});
+    setTeamData(teams);
+    console.log('[League] Auto-loaded '+teams.length+' teams');
+  },[appRosters,appUsers,appNflPlayers]);
 
   // KTC Refresh state
   var ktcStatusState = useState(''); var ktcStatus = ktcStatusState[0]; var setKtcStatus = ktcStatusState[1];
   var ktcModalState = useState(false); var showKtcModal = ktcModalState[0]; var setShowKtcModal = ktcModalState[1];
   var ktcPasteState = useState(''); var ktcPasteText = ktcPasteState[0]; var setKtcPasteText = ktcPasteState[1];
   var ktcVersionState = useState(0); var ktcVersion = ktcVersionState[0]; var setKtcVersion = ktcVersionState[1];
+
+  // Auto-load league/roster data on mount so all tabs have it
+  useEffect(function(){
+    var LID_APP='1312086802231734272';
+    Promise.all([
+      fetch('https://api.sleeper.app/v1/league/'+LID_APP+'/users'),
+      fetch('https://api.sleeper.app/v1/league/'+LID_APP+'/rosters'),
+      fetch('https://api.sleeper.app/v1/players/nfl')
+    ]).then(function(res){return Promise.all(res.map(function(r){return r.json();}));})
+    .then(function(data){
+      var users=data[0];var rosters=data[1];var nfl=data[2];
+      var teams = rosters.map(function(r){
+        var user = users.find(function(u){return u.user_id===r.owner_id;});
+        var teamName = (user && user.metadata && user.metadata.team_name) || (user && user.display_name) || 'Unknown';
+        var playerIds = r.players || [];
+        var rosterPlayers = playerIds.map(function(pid){
+          var np = nfl[pid];
+          if(!np) return null;
+          var fullName = np.first_name + ' ' + np.last_name;
+          var normFull = fullName.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+          var normFullClean = normFull.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+          var match = processedPlayers.find(function(pp){
+            var normPP = pp.name.replace(/[.\-']/g,'').replace(/\s+/g,' ').toLowerCase().trim();
+            var normPPClean = normPP.replace(/ jr$/,'').replace(/ sr$/,'').replace(/ iii$/,'').replace(/ ii$/,'').replace(/ iv$/,'');
+            if(normPP === normFull) return true;
+            if(normPPClean === normFullClean && pp.pos === np.position) return true;
+            return false;
+          });
+          return {name:fullName,pos:np.position||'',team:np.team||'',
+            val:match?match.val:0,ppg:match?match.ppg:0,livePPG:match?match.livePPG:(match?match.ppg:0),age:match?match.age:(np.age||0),
+            tier:match?match.tier:getTier(0),matched:!!match,peakPPG:match?match.peakPPG:0,rank:match?match.rank:999,
+            eliteYrs:match?match.eliteYrs:0,starterYrs:match?match.starterYrs:0};
+        }).filter(Boolean);
+        var lineup = buildOptimalLineup(rosterPlayers);
+        var byPosVal = {QB:0,RB:0,WR:0,TE:0};
+        rosterPlayers.forEach(function(p){if(byPosVal[p.pos]!==undefined)byPosVal[p.pos]+=p.val;});
+        var totalVal = lineup.starterVal + lineup.benchVal;
+        var starterPAR = lineup.starters.reduce(function(s,p){return s+getPlayerPAR(p);},0);
+        return {teamName:teamName,rosterPlayers:rosterPlayers,starters:lineup.starters,bench:lineup.bench,
+          starterVal:lineup.starterVal,starterPPG:lineup.starterPPG,starterPAR:starterPAR,benchVal:lineup.benchVal,totalVal:totalVal,
+          byPos:byPosVal,wins:r.settings?r.settings.wins||0:0,losses:r.settings?r.settings.losses||0:0};
+      }).sort(function(a,b){return b.totalVal-a.totalVal;});
+      setTeamData(teams);
+    }).catch(function(e){console.log('[League] Auto-load failed:',e);});
+  },[]);
 
   function updateKtcData(newData){
     // Replace entries AND normalize names to match our player data
@@ -3884,7 +4366,7 @@ function App(){
     return list;
   },[posFilter,search,sortBy,ktcVersion]);
 
-  var tabs = [{id:'rankings',label:'Rankings'},{id:'trade',label:'Trade Calc'},{id:'threeway',label:'3-Way'},{id:'league',label:'League'},{id:'compare',label:'Compare'},{id:'optimizer',label:'Optimizer'},{id:'winprob',label:'Win Prob'},{id:'gm',label:'GM Intel'},{id:'analysis',label:'Analysis'},{id:'sellhigh',label:'Sell High'},{id:'waivers',label:'Waivers'},{id:'ktc',label:'Market Edge'},{id:'scarcity',label:'Scarcity'}];
+  var tabs = [{id:'league',label:'League'},{id:'rankings',label:'Rankings'},{id:'trade',label:'Trade Calc'},{id:'compare',label:'Compare'},{id:'winprob',label:'Win Prob'},{id:'ktc',label:'Market Edge'}];
   var tabButtons = tabs.map(function(t){
     return h('button',{key:t.id,className:'nav-tab'+(tab===t.id?' active':''),onClick:function(){setTab(t.id);}},t.label);
   });
@@ -3895,7 +4377,7 @@ function App(){
 
   var tableHeader = h('div',{className:'table-header'},
     h('div',null,'#'),h('div',null,'PLAYER'),h('div',null,'POS'),h('div',null,'VALUE'),
-    h('div',null,'KTC'),h('div',null,'TIER'),h('div',null,'PPG'),h('div',null,'EYR'),h('div',null,'SYR'),h('div',null,'EDGE'),h('div',null)
+    h('div',null,'KTC'),h('div',null,'EDGE'),h('div',null,'PPG'),h('div',null,'EYR'),h('div',null,'SYR'),h('div',null)
   );
 
   var playerRows = filtered.map(function(p){
@@ -3921,7 +4403,7 @@ function App(){
   } else if(tab==='threeway'){
     content = h(ThreeWayTrade,{teamData:teamData});
   } else if(tab==='league'){
-    content = h(LeagueView,{onTeamData:setTeamData});
+    content = h(LeagueView,{onTeamData:setTeamData,preloadedTeamData:teamData});
   } else if(tab==='compare'){
     content = h(TeamComparison,{teamData:teamData});
   } else if(tab==='analysis'){
