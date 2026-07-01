@@ -1591,6 +1591,15 @@ var SELL_WINDOWS = {QB:{start:33,peak:34,label:'QB: age 33-34'},RB:{start:26,pea
 </script>
 
 <script>
+function ktcLookup(name){
+var k=KTC_DATA[name];if(k)return k;
+var n1=name.replace(/\./g,'');k=KTC_DATA[n1];if(k)return k;
+var n2=name.replace(/Jr$/,'Jr.').replace(/Sr$/,'Sr.');k=KTC_DATA[n2];if(k)return k;
+var n3=name.replace(/Jr\.$/,'Jr').replace(/Sr\.$/,'Sr');k=KTC_DATA[n3];if(k)return k;
+var n4=name.replace(/ Jr\.?$/,'').replace(/ Sr\.?$/,'').replace(/ III$/,'').replace(/ II$/,'').replace(/ IV$/,'');k=KTC_DATA[n4];if(k)return k;
+return null;
+}
+
 
 
 var h = React.createElement;
@@ -1749,7 +1758,7 @@ function PlayerRow(props){
   }
 
   // Compute KTC edge for this player
-  var ktcInfo = KTC_DATA[p.name];
+  var ktcInfo = ktcLookup(p.name);
   var ktcValStr = ktcInfo ? ktcInfo.v.toLocaleString() : '\u2014';
   var edgeVal = 0; var edgeLbl = ''; var edgeClr = 'var(--text-muted)';
   if(ktcInfo && !p.isPick){
@@ -2013,7 +2022,7 @@ function TradeCalculator(props){
   var fairLabel = fairPct<5?'Fair Trade':fairPct<15?'Slight Edge':'Lopsided';
 
   // KTC, PPG, PAR totals
-  function getKtcVal(p){var k=KTC_DATA[p.name];return k?k.v:0;}
+  function getKtcVal(p){var k=ktcLookup(p.name);return k?k.v:0;}
   function getPPG(p){return p.ppg||0;}
   function getPAR(p){return p.isPick?0:Math.max(0,(p.ppg||0)-(REPL_LEVEL[p.pos]||8));}
 
@@ -2331,7 +2340,7 @@ function TradeCalculator(props){
       var notInTrade = allRoster.filter(function(p){return !side.find(function(s){return s.name===p.name;});});
 
       function getEdgeInfo(p){
-        var ktc = KTC_DATA[p.name]; var ktcVal = ktc?ktc.v:0;
+        var ktc = ktcLookup(p.name); var ktcVal = ktc?ktc.v:0;
         var par = Math.max(0,(p.ppg||0)-(REPL_LEVEL[p.pos]||8));
         var edge=0;var edgeLabel='';var edgeColor='var(--text-muted)';
         if(ktc){
@@ -2395,7 +2404,7 @@ function TradeCalculator(props){
     var chips = side.length > 0 ? h('div',{style:{marginTop:8}},
       h('div',{style:{fontSize:11,fontWeight:600,color:'var(--text-muted)',marginBottom:4}},'IN TRADE:'),
       side.map(function(p,idx){
-        var ktc = KTC_DATA[p.name];
+        var ktc = ktcLookup(p.name);
         var ktcVal = ktc ? ktc.v : 0;
         var par = p.isPick ? 0 : Math.max(0,(p.ppg||0)-(REPL_LEVEL[p.pos]||8));
         var edge = 0; var edgeLabel = ''; var edgeColor = 'var(--text-muted)';
@@ -2810,8 +2819,8 @@ function KTCEdge(props){
 
   // Compute positional rank edge
   var edgePlayers = useMemo(function(){
-    var matched = processedPlayers.filter(function(p){return KTC_DATA[p.name];}).map(function(p){
-      var ktc = KTC_DATA[p.name];
+    var matched = processedPlayers.filter(function(p){return ktcLookup(p.name);}).map(function(p){
+      var ktc = ktcLookup(p.name);
       return {name:p.name,pos:p.pos,team:p.team,age:p.age,modelVal:p.val,modelRank:p.rank,
         ktcVal:ktc.v,ktcRank:ktc.r,ktcPos:ktc.p,ppg:p.ppg,tier:p.tier};
     });
@@ -2956,7 +2965,7 @@ function TeamAnalysis(props){
       if(!p.age || !p.pos) return;
       var sw = SELL_WINDOWS[p.pos];
       if(!sw) return;
-      var ktc = KTC_DATA[p.name];
+      var ktc = ktcLookup(p.name);
       var ktcEdge = '';
       if(ktc){
         var modelPosRank = processedPlayers.filter(function(pp){return pp.pos===p.pos&&pp.val>p.val;}).length+1;
@@ -3141,7 +3150,7 @@ function RosterOptimizer(props){
   var teamOptions = [h('option',{key:'_',value:''},'Select your team...')].concat(teamData.map(function(t){return h('option',{key:t.teamName,value:t.teamName},t.teamName);}));
   var myData = teamData.find(function(t){return t.teamName===myTeam;});
 
-  function getKtcV(p){var k=KTC_DATA[p.name];return k?k.v:0;}
+  function getKtcV(p){var k=ktcLookup(p.name);return k?k.v:0;}
   var KTC_MAX=9999;
   function rawAdj(pv,tv){return pv*(0.1+0.088*Math.pow(pv/KTC_MAX,8)+0.156*Math.pow(pv/Math.max(tv,pv),1.3)+0.08*Math.pow(pv/(KTC_MAX+2000),1.28));}
   function ktcFair(give,get){
@@ -3360,7 +3369,7 @@ function SellHighAlerts(props){
   if(myData){
     myData.rosterPlayers.forEach(function(p){
       if(!p.pos||!p.matched||p.val<30) return;
-      var ktc=KTC_DATA[p.name];if(!ktc) return;
+      var ktc=ktcLookup(p.name);if(!ktc) return;
       var curve=AGING_CURVES[p.pos];if(!curve) return;
       var age=p.age||0;if(!age) return;
       var peakAge = p.pos==='QB'?32:p.pos==='RB'?21:p.pos==='WR'?25:25;
@@ -3436,7 +3445,7 @@ function WaiverWire(props){
       h('div',{style:{display:'grid',gridTemplateColumns:'30px 1fr 44px 50px 50px 50px 50px',padding:'4px 8px',fontSize:9,fontWeight:600,color:'var(--text-muted)',borderBottom:'1px solid var(--border)',textTransform:'uppercase'}},
         h('span',null,'#'),h('span',null,'PLAYER'),h('span',null,'POS'),h('span',{style:{textAlign:'right'}},'VALUE'),h('span',{style:{textAlign:'right'}},'KTC'),h('span',{style:{textAlign:'right'}},'PPG'),h('span',{style:{textAlign:'right'}},'PAR')),
       available.slice(0,30).map(function(p,i){
-        var ktc=KTC_DATA[p.name];var ktcVal=ktc?ktc.v:0;
+        var ktc=ktcLookup(p.name);var ktcVal=ktc?ktc.v:0;
         var par=getPlayerPAR(p);
         return h('div',{key:p.name,style:{display:'grid',gridTemplateColumns:'30px 1fr 44px 50px 50px 50px 50px',padding:'6px 8px',fontSize:11,borderBottom:'1px solid var(--border)',alignItems:'center'}},
           h('span',{className:'mono',style:{color:'var(--text-muted)'}},i+1),
@@ -3471,7 +3480,7 @@ function ThreeWayTrade(props){
   var dB=teamData.find(function(t){return t.teamName===teamB;});
   var dC=teamData.find(function(t){return t.teamName===teamC;});
 
-  function getKV(p){var k=KTC_DATA[p.name];return k?k.v:0;}
+  function getKV(p){var k=ktcLookup(p.name);return k?k.v:0;}
   var KM=9999;
   function ra(pv,tv){return pv*(0.1+0.088*Math.pow(pv/KM,8)+0.156*Math.pow(pv/Math.max(tv,pv),1.3)+0.08*Math.pow(pv/(KM+2000),1.28));}
   function kFair(give,get){
@@ -3940,7 +3949,7 @@ function GMAnalyzer(props){
     var players=[];
     td.rosterPlayers.forEach(function(p){
       if(!p.pos||p.val<20)return;
-      var ktc=KTC_DATA[p.name];if(!ktc)return;
+      var ktc=ktcLookup(p.name);if(!ktc)return;
       var signals=[];
       // If GM sells this position a lot, they might undervalue it
       if(gm.posSold[p.pos]>=2) signals.push('GM frequently sells '+p.pos+'s \u2014 may undervalue');
